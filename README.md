@@ -22,8 +22,8 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <a href="https://static-00.iconduck.com/assets.00/nextjs-icon-2048x1234-pqycciiu.png">
-    <img src="/quizzyverse/public/nextjslogosml.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard">
+    <img src="/quizzyverse/public/Epitech.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Best-README-Template</h3>
