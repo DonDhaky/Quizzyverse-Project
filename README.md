@@ -23,7 +23,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard">
-    <img src="/quizzyverse/public/Epitech.png" alt="Logo">
+    <img src="/quizzyverse/public/Epitech.png" alt="Logo" height="auto" width="auto">
   </a>
 
   <h3 align="center">Best-README-Template</h3>
