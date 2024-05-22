@@ -1,4 +1,4 @@
-<ins># **Welcome to the final Coding Academy 'Pfff' Project.**</ins>
+<ins># Welcome to the final Coding Academy 'Pfff' Project.</ins>
 
 ---
 
