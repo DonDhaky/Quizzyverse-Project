@@ -23,7 +23,7 @@
 <br />
 <div align="center">
   <a href="https://static-00.iconduck.com/assets.00/nextjs-icon-2048x1234-pqycciiu.png">
-    <img src="/quizzyverse/public/nextjslogo.png" alt="Logo" width="80" height="80">
+    <img src="/quizzyverse/public/next.svg" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Best-README-Template</h3>
