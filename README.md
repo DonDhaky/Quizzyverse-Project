@@ -28,9 +28,9 @@
 
   <h1 align="center">Quizzyverse</h1>
 
-  <p align="center">
-    **Welcome to our final Coding Academy project: 'Quizzyverse' !**
-  </p>
+  <h2 align="center">
+    Welcome to our final Coding Academy project: 'Quizzyverse'
+  </h2>
 </div>
 
 
