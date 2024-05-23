@@ -1,0 +1,23 @@
+body {
+    background-color: #282c34;
+    color: white;
+    padding: 40px;
+    font-family: Arial;
+    text-align: center;
+}
+
+input {
+    border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+button {
+    border: solid;
+    border-width: 1px;
+    border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
