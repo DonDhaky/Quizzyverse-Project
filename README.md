@@ -18,7 +18,7 @@
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-
+---
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -34,7 +34,7 @@
 </div>
 
 
-
+---
 <!-- TABLE OF CONTENTS -->
 <details>
   <summary>Table of Contents</summary>
@@ -62,7 +62,7 @@
 </details>
 
 
-
+---
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -74,7 +74,7 @@ Le projet doit être réalisé en groupe de 4, il n’y aura donc qu’un seul g
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
+---
 ### Built With
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
@@ -87,42 +87,35 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
+---
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
+Make sure your node & npm version is updated, if not update it:
+* node
+`npm i node@lts`
 * npm
-  ```sh
-  npm install npm@latest -g
-  ```
+`npm install npm@latest -g`
 
+---
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
+1. Clone the repository stocked on Github
+Check this doc if you don't know to do it : <a href='https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository'>**Doc**</a>
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+In the terminal on your IDE:
+
+git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard.git` (option: rename the repository)
+
+2. Install NPM packages
+`npm install`
+
+3. You're ready to go ! Just start the project with the following command line:
+`npm run dev`
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
+---
 
 <!-- USAGE EXAMPLES -->
 ## Usage
