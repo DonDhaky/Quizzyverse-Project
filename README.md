@@ -62,7 +62,6 @@
 </details>
 
 
----
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
@@ -74,7 +73,6 @@ Le projet doit être réalisé en groupe de 4, il n’y aura donc qu’un seul g
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
----
 ### Built With
 
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
@@ -86,8 +84,6 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
----
 <!-- GETTING STARTED -->
 ## Getting Started
 
@@ -97,7 +93,6 @@ Make sure your node & npm version is updated, if not update it:
 * npm
 `npm install npm@latest -g`
 
----
 ### Installation
 
 1. Clone the repository stocked on Github
@@ -115,7 +110,6 @@ git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-ma
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
----
 
 <!-- USAGE EXAMPLES -->
 ## Usage
