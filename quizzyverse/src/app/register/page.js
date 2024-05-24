@@ -15,10 +15,14 @@ const RegisterForm = () => {
   const handleSubmit = (event) => {
     event.preventDefault()
 
-    // Do something with the form data, such as sending it to a server to create a new user
+    console.log(username)
+    console.log(country);
+    console.log(email);
+    console.log(password);
   }
 
   return (
+    <>
     <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
     {/* admin panel reserved
         <label style={{ marginBottom: '10px' }}>Admin:</label>
@@ -47,6 +51,7 @@ const RegisterForm = () => {
     */}
       <button style={{ marginBottom: '20px' }} type="submit">Register</button>
     </form>
+    </>
   )
 }
 
