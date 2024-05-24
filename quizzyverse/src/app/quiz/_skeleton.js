@@ -34,14 +34,16 @@ const QuizContainer = () => {
 
   return (
 
-    <div style={{ textAlign: 'center', display: "" }}>
+    <div style={{ width: "45%", margin: "auto", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px" }}>
 
         {/*rend les components en fonction de ce qu'on décide de mettre dans 'const initialValue'*/}
+        <br/>
         <h1 style={{fontSize: '48px'}}>{myState.quiz_title}</h1>
+        <br/>
         <br/>
         <h3 style={{fontSize: '24px'}}>{myState.question}</h3>
         <br/>
-
+        <br/>
         {/*si quiz de type 'image'...*/}
         {myState.type === 'image' && (
         <>
@@ -57,8 +59,9 @@ const QuizContainer = () => {
          "I'm a freeking text"
          )}
         <br/>
+        {/*si réponse de type 'text'...*/}
         {myState.response_type === 'text' && (
-          <input style={{width: 200, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best..." />
+          <input style={{width: 300, height: 40, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best!..." />
         )}
         <br/>
         {myState.show_clue === true ? (
