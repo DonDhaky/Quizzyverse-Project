@@ -1,71 +1,70 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./_skeleton.css"
 
 const QuizContainer = () => {
 
-  const initialValue = {
-    quiz_title: "Quiz #",
-    question: "Quel est le titre de ce flim / d'où vient ce truc / quoi c'est ça ? etc.",
-    question_number: 1,
-    total_number: 10,
-    type: 'image',
-    imageUrl: "https://m.media-amazon.com/images/I/71CsUmAR-GL._SL1500_.jpg",
-    imageAlt: "",
-    show_clue: false,
-    clue: "C'est poilu",
-    clue_price: 1,
-    response_type: "text",
-  }
+  const [quizSettings, setquizSettings] = useState(null)
 
-  const [myState, setMyState] = useState(initialValue)
-
-  //setMyState({imageUrl: 'https://m.media-amazon.com/images/I/71CsUmAR-GL._SL1500_.jpg'});
+    useEffect(() => {
+        const quizName = localStorage.getItem('quizName')
+        const getquizSettings = (async() => {
+            const response = await fetch(`/api/ressources/${quizName}`)
+            const data =  await response.json()
+            console.log(data);
+            setquizSettings(data.quizSettings)
+        })
+        getquizSettings()
+    }, [])
 
   const handleClue = () => {
-    console.log(initialValue.clue);
-    setMyState({...myState, show_clue: true})
+    console.log(quizSettings.clue);
+    setquizSettings({...quizSettings, show_clue: true})
   }
 
   const handleEvent = (event) => {
     // Do something with response
   }
 
+  if (!quizSettings) {
+    return <div>Loading...</div>;
+  }
+
   return (
+    
+    <div style={{ width: "45%", margin: "auto", paddingLeft: "20px", paddingRight: "20px", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px" }}>
 
-    <div style={{ width: "45%", margin: "auto", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px" }}>
-
-        {/*rend les components en fonction de ce qu'on décide de mettre dans 'const initialValue'*/}
+        {/*rend les components en fonction de ce qu'on décide de mettre dans 'const quizSettings'*/}
         <br/>
-        <h1 style={{fontSize: '48px'}}>{myState.quiz_title}</h1>
+        <h1 style={{fontSize: '48px'}}>{quizSettings.quiz_title}</h1>
         <br/>
         <br/>
-        <h3 style={{fontSize: '24px'}}>{myState.question}</h3>
+        <h3 style={{fontSize: '24px'}}>{quizSettings.question}</h3>
         <br/>
         <br/>
         {/*si quiz de type 'image'...*/}
-        {myState.type === 'image' && (
+        {quizSettings.type === 'image' && (
         <>
-            <img style={{ display: 'inline-block' }} src={myState.imageUrl} alt={myState.imageAlt} width={250} height={"auto"} />
+            <img style={{ display: 'inline-block' }} src={quizSettings.imageUrl} alt={quizSettings.imageAlt} width={250} height={"auto"} />
             <p>
                 <br/><br/>
-                Question {myState.question_number} of {myState.total_number}
+                Question {quizSettings.question_number} of {quizSettings.total_number}
             </p>
         </>
         )}
         {/*si quiz de type 'text'...*/}
-        {myState.type === 'text' && (
+        {quizSettings.type === 'text' && (
          "I'm a freeking text"
          )}
         <br/>
         {/*si réponse de type 'text'...*/}
-        {myState.response_type === 'text' && (
+        {quizSettings.response_type === 'text' && (
           <input style={{width: 300, height: 40, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best!..." />
         )}
         <br/>
-        {myState.show_clue === true ? (
-            <span>Clue: {initialValue.clue}</span>
+        {quizSettings.show_clue === true ? (
+            <span>Clue: {quizSettings.clue}</span>
             )
             :
             <button style={{fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {"{"}clue_price{"}"} xp for a clue !</button>

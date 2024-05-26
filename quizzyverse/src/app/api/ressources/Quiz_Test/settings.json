@@ -1,0 +1,13 @@
+{
+    "quiz_title": "Quiz #",
+    "question": "Quel est le titre de ce flim / d'où vient ce truc / quoi c'est ça ? etc.",
+    "question_number": 1,
+    "total_number": 10,
+    "type": "image",
+    "imageUrl": "https://m.media-amazon.com/images/I/71CsUmAR-GL._SL1500_.jpg",
+    "imageAlt": "",
+    "show_clue": false,
+    "clue": "C'est poilu",
+    "clue_price": 1,
+    "response_type": "text"
+}
