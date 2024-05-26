@@ -7,9 +7,20 @@ body {
 }
 
 input {
+    width: 300px;
     border: solid;
     border-width: 1px;
     border-radius: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+select {
+    width: 300px;
+    border: solid;
+    border-width: 1px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
     padding-left: 10px;
     padding-right: 10px;
 }
