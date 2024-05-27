@@ -51,6 +51,7 @@ const RegisterForm = () => {
       if (response.ok) {
         console.log("User registered");
         console.log(response);
+        //document.cookie = "is_logged=1; expires=" + new Date(Date.now() + 3600000).toUTCString() + "; path=/";
         window.location.href = '/'
       } else {
         console.log("There was an error registering the user")
