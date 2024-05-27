@@ -4,23 +4,30 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
 export default function Home() {
+  const [film, setFilm] = useState(null);
 
-  const fetchFilms = async () => {
-    try {
-        const response = await fetch (`https://api.themoviedb.org/3/discover/movie?api_key=bde8dd7d1bfc301d94ec24636a3e78b7`);
+  useEffect(() => {
+    const fetchFilm = async () => {
+        const response = await fetch('/api/films');
         const data = await response.json();
-        console.log('json:', data.results);
-        return data.results;
-    } catch (error) {
-        console.error('Error Fetching films', error);
-    }
-};
+        setFilm(data);
+    };
 
-fetchFilms();
+    fetchFilm();
+  }, []); // Empty dependency array ensures this effect runs only once
+
   return (
     <div>
       <Link href="/">Home</Link>
-      <h1>Popular Films</h1>
+      <h1>Random Film</h1>
+      {film ? (
+        <div>
+          <h2>{film.title}</h2>
+          <p>{film.overview}</p>
+        </div>
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 }
