@@ -11,5 +11,7 @@
     "show_clue": false,
     "clue": "C'est poilu",
     "clue_price": 1,
-    "response_type": "text"
+    "response_type": "text",
+    "xpPerGoodAnswer": 2,
+    "xpCostPerClue": 1
 }
