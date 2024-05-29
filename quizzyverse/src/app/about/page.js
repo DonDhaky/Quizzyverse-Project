@@ -1,9 +1,9 @@
 import Link from "next/link";
-import NavBar from "../../../components/Navbar";
+import NavBar from "../components/Navbar";
 
 export default function About() {
   return (
-    <body className="bg-neutral-200 px-4">
+    <main className="bg-neutral-200 px-4">
         <NavBar/>
       <section className="min-h-screen flex flex-col items-center">
         <div className="mt-8 w-full max-w-3xl flex flex-col items-center text-center">
@@ -38,6 +38,6 @@ export default function About() {
         </p>
         </div>
       </section>
-    </body>
+    </main>
   );
 }
