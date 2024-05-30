@@ -4,14 +4,8 @@ import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Thèmes de quiz
-const quizzFlag = "Trouve le pays qui correspond au drapeau !";
-// const quizzCities = "Dévine la ville à partir de l'image ! (bonne chance)";
-// const quizzMovies = "Cher cinéphile, tente de trouver le nom du film à partir de cette image !";
-// const quizzOther = "Ce quizz n'a pas été décidé mais bientôt !";
-
-// Initialiser le thème choisi
-const quizzTheme = quizzFlag;
+// Thème du quiz
+const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
 const Page = () => {
     // j'utilise useState pour définir des états de base pour les varaibles venant à être modifiées
@@ -24,6 +18,8 @@ const Page = () => {
     const [showResultPopup, setShowResultPopup] = useState(false); // affichage de la pop-up à false par défaut
     const [resultMessage, setResultMessage] = useState(''); // stockage du message de résultat
     const [xpWon, setXpWon] = useState(0); // xp gagnée à incrémenter et à ajouter au user dans la DB ultérieurement
+    const [totalXp, setTotalXp] = useState(0); // total XP gagné par le joueur à la fin du quizz
+
     const router = useRouter();
 
 
@@ -33,44 +29,70 @@ const Page = () => {
             try {
                 const response = await fetch('/api/flags');
                 const data = await response.json();
-                console.log(data);
 
                 // Adapter les champs de data selon l'API !!!!
                 setFetchedImage(data.flags.png);
-                console.log(data.flags.png);
                 setFetchedAnswer(data.translations.fra.common);
-                console.log(data.translations.fra.common);
                  setFetchedTip(data.capital ? `Capitale(s) de ce pays : ${data.capital}` : 'Pas d\'indice disponible pour ce pays !');
-                console.log(data.capital);
             } catch (error) {
                 console.error(error);
             }
         };
 
         fetchQuizzData();
-    }, [questionNumber]);
+
+        const handleBeforeUnload = (event) => {
+            event.preventDefault();
+            event.returnValue = 'Si vous rafraîchissez la page, le quizz ne sera pas comptabilisé.';
+        };
+
+        const handlePopState = () => {
+            confirm('Si vous quittez la page, le quizz ne sera pas comptabilisé et vous serez redirigé vers la page d\'accueil.');
+            router.push('/');
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+            window.removeEventListener('popstate', handlePopState);
+        };
+
+    }, [questionNumber, router]);
 
     const validateAnswer = () => { // bouton de validation de la réponse et affichage du pop-up
-        if (userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) { // pour la sensibilité à la casse
-            setXpWon(prevXp => prevXp + 10); // Incrémente l'XP si la réponse est correcte
-            setResultMessage('Bonne réponse !');
+        let message = '';
+        if (userAnswer != '' & userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) { // pour la sensibilité à la casse
+            const newXp = xpWon + 10; // incrémentation de l'XP si la réponse est correcte
+            setXpWon(newXp);
+            setTotalXp(prevTotalXp => prevTotalXp + 10);
+            if (questionNumber >= 5) {
+                message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
+            } else {
+                message = 'Bonne réponse ! + 10 xp !';
+            }
         } else {
-            setResultMessage(`Mauvaise réponse, c'était ${fetchedAnswer} !`);
+            message = `Mauvaise réponse, c'était ${fetchedAnswer} !`;
+            if (questionNumber >= 5) {
+                message += ' Vous avez gagné ' + xpWon + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
+            }
         }
+        setResultMessage(message);
         setShowResultPopup(true);
     };
 
     const handleNextQuestion = () => { // bouton de validation du pop-up et affichage de la nouvelle question
-        setShowResultPopup(false);
-        setUserAnswer(''); // reset de la réponse du joueur
-        setShowTip(false); // on cache de nouveau l'indice
-        setQuestionNumber(prevQuestionNumber => {
-            const nextQuestionNumber = prevQuestionNumber + 1;
-            if (nextQuestionNumber > 5) {
-                router.push('/'); // créer une page pour afficher les résultats finaux si le compteur atteint 6 OU mettre un POP UP DE FIN
-            }
-            return nextQuestionNumber;
-        });
+        if (questionNumber >= 5) {
+            router.push('/');
+            // ajouter ici la logique d'ajout des points à la DB
+            // ajouter aussi la limitation de réalisation du quizz
+        } else {
+            setShowResultPopup(false);
+            setUserAnswer(''); // reset de la réponse du joueur
+            setShowTip(false); // on cache de nouveau l'indice
+            setQuestionNumber(prevQuestionNumber => prevQuestionNumber + 1);
+        }
     };
 
     const handleShowTip = () => {
@@ -80,14 +102,14 @@ const Page = () => {
     return (
         <div className="flex items-center justify-center mt-10 flex-col">
             <h1 className="text-3xl">Quizzyverse</h1>
-            <h6 className="mt-10">{quizzTheme}</h6>
+            <h6 className="mt-10">{quizzFlag}</h6>
             <div className="container mx-auto p-4">
                 <div className="max-w-sm mx-auto bg-white shadow-md rounded-md overflow-hidden">
                     <img src={fetchedImage} alt="Quiz Image" className="w-full h-auto max-w-full max-h-full object-contain" />
-                    <div className="text-xl text-center text-black m-3">Question {questionNumber} sur 5</div>
+                    <div className="text-xl text-center text-black m-3">Question {questionNumber}</div>
                 </div>
             </div>
-            <input 
+            <input required
                 name="answer"
                 className="text-xl text-center text-black mt-5 w-80 h-10"
                 type="text"
@@ -103,8 +125,11 @@ const Page = () => {
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
                     <div className="bg-white p-6 rounded shadow-md text-center">
                         <p className="text-black">{resultMessage}</p>
-                        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" onClick={handleNextQuestion}>
-                            Prochaine question
+                        <button 
+                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded" 
+                            onClick={handleNextQuestion}
+                        >
+                            {questionNumber < 5 ? 'Prochaine question' : 'Retourner à l\'accueil'}
                         </button>
                     </div>
                 </div>
