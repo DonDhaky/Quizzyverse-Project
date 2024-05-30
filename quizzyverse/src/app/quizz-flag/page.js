@@ -3,12 +3,14 @@
 import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 // Thème du quiz
 const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
 const Page = () => {
     // j'utilise useState pour définir des états de base pour les varaibles venant à être modifiées
+    const { data: session } = useSession();
     const [fetchedImage, setFetchedImage] = useState('');
     const [fetchedAnswer, setFetchedAnswer] = useState('');
     const [fetchedTip, setFetchedTip] = useState("");
@@ -61,12 +63,34 @@ const Page = () => {
 
     }, [questionNumber, router]);
 
-    const validateAnswer = () => { // bouton de validation de la réponse et affichage du pop-up
+    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB
+        if (!session) return;
+
+        try {
+            const response = await fetch('/api/users/xp-flags', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ xp: newXp }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update XP');
+            }
+
+            const data = await response.json();
+            console.log(data.message);
+        } catch (error) {
+            console.error('Error updating XP:', error);
+        }
+    };
+
+    const validateAnswer = async () => { // bouton de validation de la réponse et affichage du pop-up
         let message = '';
         if (userAnswer != '' & userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) { // pour la sensibilité à la casse
             const newXp = xpWon + 10; // incrémentation de l'XP si la réponse est correcte
             setXpWon(newXp);
             setTotalXp(prevTotalXp => prevTotalXp + 10);
+            await updateXpInDb(newXp); // ajout de l'xp
             if (questionNumber >= 5) {
                 message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
             } else {
