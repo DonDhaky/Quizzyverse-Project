@@ -3,7 +3,7 @@ import NavBar from "../components/Navbar";
 
 export default function About() {
   return (
-    <main className="bg-neutral-200 px-4">
+    <main className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
         <NavBar/>
       <section className="min-h-screen flex flex-col items-center">
         <div className="mt-8 w-full max-w-3xl flex flex-col items-center text-center">
