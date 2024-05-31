@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 import CredentialsProvider from "next-auth/providers/credentials";
-import MySQLAdapter from '../../../lib/next-auth-mysql-adapter';
+import MySQLAdapter from '../../../../../lib/next-auth-mysql-adapter';
 import bcrypt from "bcrypt";
 
 
@@ -16,7 +16,6 @@ export const authHandler = {
       authorize: async (credentials) => {
         const user = await MySQLAdapter.getUserByEmail(credentials.email);
         if (user) {
-          console.log('User found:', user);
           const isPasswordCorrect = await bcrypt.compare(credentials.password, user.password);
           if (isPasswordCorrect) {
             console.log('Dans le authorize, user de la DB : ', user.id);
