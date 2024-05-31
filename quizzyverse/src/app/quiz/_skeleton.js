@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import "./_skeleton.css"
+import { greetUser, setupDailyCount, checkRenewedAt } from "../api/users/renewedat/checkRenewedAt"
 
 const QuizContainer = () => {
 
@@ -140,6 +141,7 @@ const QuizContainer = () => {
 
   const handleResponse = async(event) => {
     event.preventDefault()
+    if (checkRenewedAt.is_checked === false) {greetUser("you") ; setupDailyCount("arthis@mail.com") ; checkRenewedAt.is_checked = true}
     setIsButtonDisabled(true)
     setShowClue(false)
     if (quizQandA[quizSettings.question_number-1][1].toLowerCase() === myAnswer.toLowerCase()) {

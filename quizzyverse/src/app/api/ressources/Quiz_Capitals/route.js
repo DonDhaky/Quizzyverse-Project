@@ -14,7 +14,7 @@ export async function GET(request, context){
     });
 }
 
-/*
+/*//////////
 Ci-dessous:
 
 getData()
@@ -22,6 +22,7 @@ getData()
 
 */
 
+////////////////////////////
 // fetch whole countries db
 const fetchCountries = async() => {
     console.log("   fetchCountries()");
@@ -103,21 +104,14 @@ const getData = async() => {
 
       console.log(QandA_array);
       console.log(randomIndex);
-      //setDisplayMyObj(myObj) // here, 2 entries...
-      //setDisplayCountryName(myObj[1][randomIndex].name)
-      //setDisplayCountryCapitalCity(myObj[1][randomIndex].capitalCity)
-      //setDisplayCountriesAndCapitals(QandA_array);
-      //console.log(displayCountryName);
-      //console.log(displayCountryCapitalCity);
 
-      //setShowDiv(true)
       return QandA_array
     }
 }// end getData()
 
 
 
-    // checks if an object is empty.
+  // checks if an object is empty.
   /*
   function isEmpty(obj) {
     for (const prop in obj) {

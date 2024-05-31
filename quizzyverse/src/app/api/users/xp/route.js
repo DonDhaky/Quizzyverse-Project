@@ -29,9 +29,9 @@ export async function POST(request, context) { //in TS: POST(request: Request)
             const dayly_count = mySqlFetchResponse[0].daily_count + 1
 
             const sqlUpdate = 'UPDATE users SET xp = ?, daily_count = ? WHERE email = ?;'
-            const mySqlResponse = await pool.query(sqlUpdate, [new_xp, dayly_count, data.email])
+            const mySqlUpdateResponse = await pool.query(sqlUpdate, [new_xp, dayly_count, data.email])
             console.log("\n\n\n\n\n")
-            console.log(mySqlResponse);
+            console.log(mySqlUpdateResponse);
             console.log("\n\n\n\n\n")
 
         } else {
