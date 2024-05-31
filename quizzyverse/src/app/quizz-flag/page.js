@@ -84,13 +84,12 @@ const Page = () => {
         }
     };
 
-    const validateAnswer = async () => { // bouton de validation de la réponse et affichage du pop-up
+    const validateAnswer = () => { // bouton de validation de la réponse et affichage du pop-up
         let message = '';
         if (userAnswer != '' & userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) { // pour la sensibilité à la casse
             const newXp = xpWon + 10; // incrémentation de l'XP si la réponse est correcte
             setXpWon(newXp);
             setTotalXp(prevTotalXp => prevTotalXp + 10);
-            await updateXpInDb(newXp); // ajout de l'xp
             if (questionNumber >= 5) {
                 message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
             } else {
@@ -108,9 +107,9 @@ const Page = () => {
 
     const handleNextQuestion = () => { // bouton de validation du pop-up et affichage de la nouvelle question
         if (questionNumber >= 5) {
+            updateXpInDb(newXp); // ajout de l'xp à la db quand le user retourne à l'accueil à la fin du quizz
             router.push('/');
-            // ajouter ici la logique d'ajout des points à la DB
-            // ajouter aussi la limitation de réalisation du quizz
+            // ajouter la limitation de réalisation du quizz
         } else {
             setShowResultPopup(false);
             setUserAnswer(''); // reset de la réponse du joueur
