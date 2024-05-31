@@ -14,36 +14,48 @@ export async function POST(request, context) { //in TS: POST(request: Request)
     if (data.email === '') {data.email = null}
     console.log(data.email)
     console.log("\n\n\n\n\n");
+    let message
     try {
         
-        const sqlFetch = 'SELECT daily_count, renewed_at FROM users WHERE email = ?;'
+        const sqlFetch = 'SELECT is_premium, daily_count, renewed_at FROM users WHERE email = ?;'
         const [mySqlFetchResponse] = await pool.query(sqlFetch, [data.email])
         console.log(mySqlFetchResponse);
         if(mySqlFetchResponse.length > 0) {
+            console.log(mySqlFetchResponse[0].is_premium);
             console.log(mySqlFetchResponse[0].daily_count);
             console.log(mySqlFetchResponse[0].renewed_at);
 
-            const now = Date.now();
-            if (mySqlFetchResponse[0].renewed_at < now || mySqlFetchResponse[0].renewed_at == NULL) {
-                const daily_count = 1
-                const nowPlus24Hours = now + 24 * 60 * 60 * 1000;
-                console.log(typeof(nowPlus24Hours));
-                const sqlUpdate = 'UPDATE users SET daily_count = ?, renewed_at = ? WHERE email = ?;'
-                const [mySqlUpdateResponse] = await pool.query(sqlUpdate, [daily_count, nowPlus24Hours, data.email])
-                const message = "dayly_count set to 1"
+            if (mySqlFetchResponse[0].is_premium == 1) {
+                console.log("user Is Premium");
+                message = "user is premium"
             } else {
-                if (mySqlFetchResponse[0].daily_count < 4) {
-                    const daily_count = mySqlFetchResponse[0].daily_count + 1
-                    const sqlUpdate = 'UPDATE users SET daily_count = ? WHERE email = ?;'
-                    const [mySqlUpdateResponse] = await pool.query(sqlUpdate, [daily_count, data.email])
-                    const message = "dayly_count incremented"
+                console.log("user NOT Premium");
+                const now = Date.now();
+                if (mySqlFetchResponse[0].renewed_at < now || mySqlFetchResponse[0].renewed_at === null) {
+                    console.log("user can renew his quota or first visit");
+                    const daily_count = 1
+                    const nowPlus24Hours = now + 24 * 60 * 60 * 1000;
+                    console.log(typeof(nowPlus24Hours));
+                    const sqlUpdate = 'UPDATE users SET daily_count = ?, renewed_at = ? WHERE email = ?;'
+                    const [mySqlUpdateResponse] = await pool.query(sqlUpdate, [daily_count, nowPlus24Hours, data.email])
+                    message = "dayly_count set to 1"
                 } else {
-                    const message = "maximum daily_count reached"
+                    console.log("has user some daily_count left ?");
+                    if (mySqlFetchResponse[0].daily_count < 4) {
+                        console.log("yes");
+                        const daily_count = mySqlFetchResponse[0].daily_count + 1
+                        const sqlUpdate = 'UPDATE users SET daily_count = ? WHERE email = ?;'
+                        const [mySqlUpdateResponse] = await pool.query(sqlUpdate, [daily_count, data.email])
+                        message = "dayly_count incremented"
+                    } else {
+                        console.log("no");
+                        message = "maximum daily_count reached"
+                    }
                 }
             }
 
             console.log("\n\n\n\n\n")
-            console.log(mySqlResponse);
+            console.log(message);
             console.log("\n\n\n\n\n")
 
         } else {

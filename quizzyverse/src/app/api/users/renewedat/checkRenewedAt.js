@@ -19,8 +19,10 @@ export const setupDailyCount = async(email) => {
       body: JSON.stringify(data)
     })
     if (response.ok) {
+      const returnedData = await response.json()
       console.log("daily_count changed");
       console.log(response);
+      console.log(returnedData.message);
     } else {
       console.log("There was an error changing the daily_count")
       console.log(response);
