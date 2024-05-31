@@ -38,7 +38,7 @@ export async function POST(request, context) { //in TS: POST(request: Request)
                     console.log(typeof(nowPlus24Hours));
                     const sqlUpdate = 'UPDATE users SET daily_count = ?, renewed_at = ? WHERE email = ?;'
                     const [mySqlUpdateResponse] = await pool.query(sqlUpdate, [daily_count, nowPlus24Hours, data.email])
-                    message = "dayly_count set to 1"
+                    message = "daily_count set to 1"
                 } else {
                     console.log("has user some daily_count left ?");
                     if (mySqlFetchResponse[0].daily_count < 4) {
@@ -46,7 +46,7 @@ export async function POST(request, context) { //in TS: POST(request: Request)
                         const daily_count = mySqlFetchResponse[0].daily_count + 1
                         const sqlUpdate = 'UPDATE users SET daily_count = ? WHERE email = ?;'
                         const [mySqlUpdateResponse] = await pool.query(sqlUpdate, [daily_count, data.email])
-                        message = "dayly_count incremented"
+                        message = "daily_count incremented"
                     } else {
                         console.log("no");
                         message = "maximum daily_count reached"

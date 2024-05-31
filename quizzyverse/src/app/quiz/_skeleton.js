@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import "./_skeleton.css"
-import { greetUser, setupDailyCount, checkRenewedAt } from "../api/users/renewedat/checkRenewedAt"
+import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
 
 const QuizContainer = () => {
 
@@ -30,27 +30,20 @@ const QuizContainer = () => {
 
   const [showResults, setShowResults] = useState(false)
 
-  //const [numberOfGoodAnswers, setNumberOfGoodAnswers] = useState(0);
-  //let numberOfGoodAnswers = 0;
-  //let numberOfRequestedClues = 0;
+  //voir le contenu de quizSettings dans api/ressources/{quizName}/settings.json
 
-    //voir le contenu de quizSettings dans api/ressources/{quizName}/settings.json
+  //fonction réservée aux quiz qui ne fonctionnent pas avec le settings.json seul
+  //se servir de quizName comme condition pour exécuter le bon bloc de code
+  const myCustomFetch = async () => {
+      //if (quizName === "MyVeryOwnQuiz") {
+          //fetch...
+          //setMyCustomData()
+          //return data
+      //}
+      //if (quizName === "MyOtherVeryOwnQuiz") {
 
-    //fonction réservée aux quiz qui ne fonctionnent pas avec le settings.json seul
-    //se servir de quizName comme condition pour exécuter le bon bloc de code
-    const myCustomFetch = async () => {
-        //if (quizName === "MyVeryOwnQuiz") {
-            //fetch...
-            //setMyCustomData()
-            //return data
-        //}
-        //if (quizName === "MyOtherVeryOwnQuiz") {
-            //fetch...
-            //setMyCustomData()
-            //return data
-        //}
-    }
-
+      //}
+  }
 
   useEffect(() => {
     const quizName = localStorage.getItem('quizName')
@@ -127,7 +120,8 @@ const QuizContainer = () => {
 
   //////////
   //BUTTONS
-  const handleClue = () => {
+  const handleClue = async() => {
+    if (!await checkUserDailyCount("arthis@mail.com")) {return}
     //console.log(quizSettings.clue);
     setClue(quizQandA[quizSettings.question_number-1][1][0]+"..."+quizQandA[quizSettings.question_number-1][1][quizQandA[quizSettings.question_number-1][1].length-1])
     /*if (quizSettings.show_clue === false) {
@@ -141,7 +135,7 @@ const QuizContainer = () => {
 
   const handleResponse = async(event) => {
     event.preventDefault()
-    if (checkRenewedAt.is_checked === false) {greetUser("you") ; setupDailyCount("arthis@mail.com") ; checkRenewedAt.is_checked = true}
+    if (!await checkUserDailyCount("arthis@mail.com")) {return}
     setIsButtonDisabled(true)
     setShowClue(false)
     if (quizQandA[quizSettings.question_number-1][1].toLowerCase() === myAnswer.toLowerCase()) {
@@ -179,8 +173,9 @@ const QuizContainer = () => {
     }, 4000)
   }
 
-  const handlePass = () => {
+  const handlePass = async() => {
     setIsButtonDisabled(true)
+    if (!await checkUserDailyCount("arthis@mail.com")) {return}
     let numberOfGoodAnswers = localStorage.getItem('numberOfGoodAnswers')
     //alert("The answer was "+quizQandA[quizSettings.question_number-1][1]+", too bad !"+"\n"+numberOfGoodAnswers+"/"+quizSettings.total_number+" corrects")
     setIsCorrect(false)
