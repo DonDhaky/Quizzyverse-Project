@@ -47,7 +47,7 @@ export async function POST(request, context) { //in TS: POST(request: Request)
     console.log("\n\n\n\n\n");
     const hashedPassword = await bcrypt.hash(data.password, 10)
     try {
-        const sql = 'INSERT INTO users (id, is_admin, username, country, email, password, xp, is_premium, daily_count) VALUES (NULL, 0, ?, ?, ?, ?, 0, 0, 0);'
+        const sql = 'INSERT INTO users (id, is_admin, username, country, email, password, xp, is_premium, daily_count, renewed_at) VALUES (NULL, 0, ?, ?, ?, ?, 0, 0, 0, NULL);'
         const mySqlResponse = await pool.query(sql, [data.username, data.country, data.email, hashedPassword])
         console.log("\n\n\n\n\n")
         console.log(mySqlResponse);
