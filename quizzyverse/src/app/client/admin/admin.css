@@ -1,0 +1,42 @@
+.divh1 {
+    margin-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+h1 {
+    font-size: 32px;
+}
+
+.divtable {
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    width: 75vw;
+    margin-top: 50px;
+    border-collapse: separate;
+    border-radius: 10px
+}
+
+th {
+    background-color: #0b2a91;
+}
+
+tr:nth-child(even) {
+    background-color: #15224d;
+  }
+
+td {
+    padding: 5px 10px 5px 10px
+}
+
+button {
+    border-radius: 7px
+}
