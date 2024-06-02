@@ -12,7 +12,7 @@ export async function GET() {
 	try {
     const sql = 'SELECT * FROM users;'
     const mySqlResponse = await pool.query(sql)
-	users = mySqlResponse[0]
+	const users = mySqlResponse[0]
 
 	if (false) {throw "Erreur"} // <=== à gérer
 

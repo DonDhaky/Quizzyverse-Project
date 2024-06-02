@@ -4,6 +4,15 @@
     align-items: center;
     justify-content: center
 }
+.divh2 {
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 75vw;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
 h1 {
     font-size: 32px;
 }
