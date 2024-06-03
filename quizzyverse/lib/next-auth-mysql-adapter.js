@@ -47,5 +47,4 @@ const MySQLAdapter = {
 //     await query('DELETE FROM users WHERE id = ?', [id]);
 //   },
 };
-
 export default MySQLAdapter;
