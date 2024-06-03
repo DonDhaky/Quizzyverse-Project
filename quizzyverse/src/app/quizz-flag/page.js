@@ -23,8 +23,6 @@ const Page = () => {
     const [totalXp, setTotalXp] = useState(0); // total XP gagné par le joueur à la fin du quizz
 
     const router = useRouter();
-
-
     // J'utilise "useEffect" pour récupérer les données de l'api lors du montage du composant
     useEffect(() => {
         const fetchQuizzData = async () => {
