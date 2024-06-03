@@ -1,0 +1,17 @@
+{
+    "quiz_title": "Quiz - Find capitals",
+    "question": "What is the capital of the following country?",
+    "question_number": 1,
+    "total_number": 10,
+    "type": "text",
+    "api_path": "https://api.allorigins.win/get?url=https://api.worldbank.org/v2/country/?format=json&per_page=296",
+    "response_obj": "",
+    "imageUrl": "https://m.media-amazon.com/images/I/71CsUmAR-GL._SL1500_.jpg",
+    "imageAlt": "",
+    "show_clue": false,
+    "clue": "C'est poilu",
+    "clue_price": 1,
+    "response_type": "text",
+    "xpPerGoodAnswer": 2,
+    "xpCostPerClue": 1
+}
