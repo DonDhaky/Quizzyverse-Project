@@ -23,6 +23,9 @@ const Page = () => {
     const [totalXp, setTotalXp] = useState(0); // total XP gagné par le joueur à la fin du quizz
 
     const router = useRouter();
+
+    console.log(session);
+
     // J'utilise "useEffect" pour récupérer les données de l'api lors du montage du composant
     useEffect(() => {
         const fetchQuizzData = async () => {
@@ -61,7 +64,7 @@ const Page = () => {
 
     }, [questionNumber, router]);
 
-    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB
+    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB en cas de bonne réponse à la fin
         if (!session) return;
 
         try {
@@ -78,9 +81,30 @@ const Page = () => {
             const data = await response.json();
             console.log(data.message);
         } catch (error) {
-            console.error('Error updating XP:', error);
+            console.error(error);
         }
     };
+
+    // const updateXpInDb2 = async (xpWon) => { // pour ajouter l'xp à mon user dans la DB en cas de mauvaise réponse à la fin
+    //     if (!session) return;
+
+    //     try {
+    //         const response = await fetch('/api/users/xp-flags', {
+    //             method: 'POST',
+    //             headers: { 'Content-Type': 'application/json' },
+    //             body: JSON.stringify({ xp: xpWon }),
+    //         });
+
+    //         if (!response.ok) {
+    //             throw new Error('Failed to update XP');
+    //         }
+
+    //         const data = await response.json();
+    //         console.log(data.message);
+    //     } catch (error) {
+    //         console.error('Error updating XP:', error);
+    //     }
+    // };
 
     const validateAnswer = () => { // bouton de validation de la réponse et affichage du pop-up
         let message = '';
@@ -88,15 +112,20 @@ const Page = () => {
             const newXp = xpWon + 10; // incrémentation de l'XP si la réponse est correcte
             setXpWon(newXp);
             setTotalXp(prevTotalXp => prevTotalXp + 10);
+
             if (questionNumber >= 5) {
                 message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
+                updateXpInDb(newXp); // ajout de l'xp à la db à la fin du quizz
             } else {
                 message = 'Bonne réponse ! + 10 xp !';
             }
+
         } else {
+
             message = `Mauvaise réponse, c'était ${fetchedAnswer} !`;
             if (questionNumber >= 5) {
                 message += ' Vous avez gagné ' + xpWon + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
+                updateXpInDb(xpWon); // ajout de l'xp à la db à la fin du quizz
             }
         }
         setResultMessage(message);
@@ -105,7 +134,6 @@ const Page = () => {
 
     const handleNextQuestion = () => { // bouton de validation du pop-up et affichage de la nouvelle question
         if (questionNumber >= 5) {
-            updateXpInDb(newXp); // ajout de l'xp à la db quand le user retourne à l'accueil à la fin du quizz
             router.push('/');
             // ajouter la limitation de réalisation du quizz
         } else {
