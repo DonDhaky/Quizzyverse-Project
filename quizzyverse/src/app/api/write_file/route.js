@@ -10,7 +10,7 @@ export async function POST(request, res) {
         const data  = await request.json()
         console.log("data:", data);
         
-        const fileDirectory = data.quizName
+        const fileDirectory = data.quizFolder
         const fileName = data.fileName
         const content = data.content
         console.log("\n\n\n\n\n");
