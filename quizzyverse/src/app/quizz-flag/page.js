@@ -4,6 +4,7 @@ import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
 
 // Thème du quiz
 const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
@@ -106,7 +107,10 @@ const Page = () => {
     //     }
     // };
 
-    const validateAnswer = () => { // bouton de validation de la réponse et affichage du pop-up
+    const validateAnswer = async() => { // bouton de validation de la réponse et affichage du pop-up
+        if (!await checkUserDailyCount("arthis@mail.com")) // placer le user actuel avec "UseSession"
+        {return};
+
         let message = '';
         if (userAnswer != '' & userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) { // pour la sensibilité à la casse
             const newXp = xpWon + 10; // incrémentation de l'XP si la réponse est correcte
