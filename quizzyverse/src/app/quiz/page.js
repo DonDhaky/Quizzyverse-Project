@@ -2,10 +2,18 @@
 
 import React, { useState, useEffect } from 'react'
 import "./_skeleton.css"
+import { useSession } from 'next-auth/react';
 import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
 
 const QuizContainer = () => {
 
+  const session = useSession()
+  console.log(session);
+  if (session.data != null) {
+    console.log(session.data);
+    console.log(session.data.user.email);
+    console.log(session.status);
+  }
   const [quizSettings, setQuizSettings] = useState(null)
   const [quizQandA, setQuizQandA] = useState(null)
 
@@ -83,7 +91,7 @@ const QuizContainer = () => {
     setMaxScore(resultsData.maxScore)
     setShowResults(true)
     if (resultsData.score > 0){
-      addXP("arthis@mail.com", resultsData.score)
+      addXP(session.data.user.email, resultsData.score)
     }
     //alert("Number of good answers: "+numberOfGoodAnswers+"\n"+"Number of requested clues: "+numberOfRequestedClues+"\n"+resultsData.score+" / "+resultsData.maxScore)
   }
@@ -121,7 +129,7 @@ const QuizContainer = () => {
   //////////
   //BUTTONS
   const handleClue = async() => {
-    if (!await checkUserDailyCount("arthis@mail.com")) {return}
+    if (!await checkUserDailyCount(session.data.user.email)) {return}
     //console.log(quizSettings.clue);
     setClue(quizQandA[quizSettings.question_number-1][1][0]+"..."+quizQandA[quizSettings.question_number-1][1][quizQandA[quizSettings.question_number-1][1].length-1])
     /*if (quizSettings.show_clue === false) {
@@ -135,7 +143,7 @@ const QuizContainer = () => {
 
   const handleResponse = async(event) => {
     event.preventDefault()
-    if (!await checkUserDailyCount("arthis@mail.com")) {return}
+    if (!await checkUserDailyCount(session.data.user.email)) {return}
     setIsButtonDisabled(true)
     setShowClue(false)
     if (quizQandA[quizSettings.question_number-1][1].toLowerCase() === myAnswer.toLowerCase()) {
@@ -175,7 +183,7 @@ const QuizContainer = () => {
 
   const handlePass = async() => {
     setIsButtonDisabled(true)
-    if (!await checkUserDailyCount("arthis@mail.com")) {return}
+    if (!await checkUserDailyCount(session.data.user.email)) {return}
     let numberOfGoodAnswers = localStorage.getItem('numberOfGoodAnswers')
     //alert("The answer was "+quizQandA[quizSettings.question_number-1][1]+", too bad !"+"\n"+numberOfGoodAnswers+"/"+quizSettings.total_number+" corrects")
     setIsCorrect(false)
