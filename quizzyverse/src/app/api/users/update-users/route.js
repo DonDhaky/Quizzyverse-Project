@@ -1,7 +1,7 @@
 import MySQLAdapter from "../../../../../lib/next-auth-mysql-adapter";
 import bcrypt from "bcrypt";
 
-export const PUT = async (req) => {
+export const POST = async (req) => {
   const { email, password, userId } = await req.json(); // "await req.json() pour les requêtes POST
   console.log(
     "Ce que je tape dans mon formulaire de modification de données, et mon id : ",
