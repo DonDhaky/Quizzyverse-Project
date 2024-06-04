@@ -19,6 +19,9 @@ export default function NavBar() {
       <Link className="text-white font-bold text-2xl" href='/'>Quizzyverse</Link>
     </div>
     <div className="right flex space-x-4">
+    <Link className="text-white font-bold" href="/profile">
+      Profile
+      </Link>     
       <Link className="text-white font-bold" href="/login">
         Log In
       </Link>
