@@ -17,6 +17,9 @@ export default function Home() {
         <Link href='/quizz-cocktail' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
           Start Quiz Cocktail
         </Link>
+        <Link href='/quiz' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
+          Start Quiz Alex
+        </Link>
       </section>
     </main>
   );

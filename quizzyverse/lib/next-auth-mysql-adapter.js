@@ -3,9 +3,13 @@ import bcrypt from 'bcrypt';
 
 const MySQLAdapter = {
 
-
   async getAllUsers() {
     const result = await query('SELECT * FROM users');
+    return result;
+  },
+
+  async getAllUsersSorted() {
+    const result = await query('SELECT * FROM users ORDER BY xp DESC')
     return result;
   },
 
