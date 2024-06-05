@@ -1,9 +1,11 @@
-// 'use client'
+'use client'
+
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
 export default function NavBar() {
   const { data: session, status } = useSession();
+  const isAuthenticated = status === 'authenticated';
   const is_admin = session?.user?.is_admin;
 
   return (
@@ -20,24 +22,29 @@ export default function NavBar() {
         </Link>
       </div>
       <div className="center">
-        <Link className="text-white font-bold text-2xl" href="/">
-          Quizzyverse
-        </Link>
+        <Link className="text-white font-bold text-2xl" href='/'>Quizzyverse</Link>
       </div>
       <div className="right flex space-x-4">
-        <Link className="text-white font-bold" href="/profile">
-          Profile
-        </Link>
-        <Link className="text-white font-bold" href="/login">
-          Log In
-        </Link>
-        <Link className="text-white font-bold" href="/register">
-          Register
-        </Link>
-        {is_admin && (
-          <Link className="text-white font-bold" href="/client/admin">
-            Admin
-          </Link>
+        {isAuthenticated ? (
+          <>
+            <Link className="text-white font-bold" href="/profile">
+              Profile
+            </Link>
+            {is_admin && (
+              <Link className="text-white font-bold" href="/admin">
+                Admin
+              </Link>
+            )}
+          </>
+        ) : (
+          <>
+            <Link className="text-white font-bold" href="/login">
+              Log In
+            </Link>
+            <Link className="text-white font-bold" href="/register">
+              Register
+            </Link>
+          </>
         )}
       </div>
     </nav>
