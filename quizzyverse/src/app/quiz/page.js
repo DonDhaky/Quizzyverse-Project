@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from 'react'
 import "./_skeleton.css"
-import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
+import { checkUserDailyCount } from "/src/app/api/users/renewedat/checkRenewedAt"
+import { addXp } from "/src/app/api/users/xp/addXp"
 
 const QuizContainer = () => {
 
@@ -83,12 +84,12 @@ const QuizContainer = () => {
     setMaxScore(resultsData.maxScore)
     setShowResults(true)
     if (resultsData.score > 0){
-      addXP("arthis@mail.com", resultsData.score)
+      addXp("arthis@mail.com", resultsData.score)
     }
     //alert("Number of good answers: "+numberOfGoodAnswers+"\n"+"Number of requested clues: "+numberOfRequestedClues+"\n"+resultsData.score+" / "+resultsData.maxScore)
   }
 
-  const addXP = async(email, xp) => {
+/*  const addXP = async(email, xp) => {
 
     console.log(email);
     console.log(xp);
@@ -117,7 +118,7 @@ const QuizContainer = () => {
     }
 
   }
-
+*/
   //////////
   //BUTTONS
   const handleClue = async() => {
