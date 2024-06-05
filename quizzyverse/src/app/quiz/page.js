@@ -2,9 +2,24 @@
 
 import React, { useState, useEffect } from 'react'
 import "./_skeleton.css"
-import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
+import NavBar from "/src/app/components/Navbar"
+import { useSession } from 'next-auth/react';
+import { checkUserDailyCount } from "/src/app/api/users/renewedat/checkRenewedAt"
+import { addXp } from "/src/app/api/users/xp/addXp"
+
+
 
 const QuizContainer = () => {
+
+  const session = useSession()
+  console.log(session);
+  if (session.data != null) {
+    console.log(session.data);
+    console.log(session.data.user.email);
+    console.log(session.status);
+  }
+
+  const [darkMode, setDarkMode] = useState(false)
 
   const [quizSettings, setQuizSettings] = useState(null)
   const [quizQandA, setQuizQandA] = useState(null)
@@ -45,10 +60,13 @@ const QuizContainer = () => {
       //}
   }
 
+
   useEffect(() => {
     const quizName = localStorage.getItem('quizName')
     localStorage.setItem("numberOfGoodAnswers", 0);
     localStorage.setItem("numberOfRequestedClues", 0);
+
+
 
     const getquizSettings = (async() => {
         const response = await fetch(`/api/ressources/${quizName}`)
@@ -83,45 +101,15 @@ const QuizContainer = () => {
     setMaxScore(resultsData.maxScore)
     setShowResults(true)
     if (resultsData.score > 0){
-      addXP("arthis@mail.com", resultsData.score)
+      addXp(session.data.user.email, resultsData.score)
     }
     //alert("Number of good answers: "+numberOfGoodAnswers+"\n"+"Number of requested clues: "+numberOfRequestedClues+"\n"+resultsData.score+" / "+resultsData.maxScore)
-  }
-
-  const addXP = async(email, xp) => {
-
-    console.log(email);
-    console.log(xp);
-
-    const data = {
-      email,
-      xp
-    }
-    try {
-      const response = await fetch('/api/users/xp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      if (response.ok) {
-        console.log("Xp added");
-        console.log(response);
-      } else {
-        console.log("There was an error adding the xp")
-        console.log(response);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
   }
 
   //////////
   //BUTTONS
   const handleClue = async() => {
-    if (!await checkUserDailyCount("arthis@mail.com")) {return}
+    if (!await checkUserDailyCount(session.data.user.email)) {return}
     //console.log(quizSettings.clue);
     setClue(quizQandA[quizSettings.question_number-1][1][0]+"..."+quizQandA[quizSettings.question_number-1][1][quizQandA[quizSettings.question_number-1][1].length-1])
     /*if (quizSettings.show_clue === false) {
@@ -135,7 +123,7 @@ const QuizContainer = () => {
 
   const handleResponse = async(event) => {
     event.preventDefault()
-    if (!await checkUserDailyCount("arthis@mail.com")) {return}
+    if (!await checkUserDailyCount(session.data.user.email)) {return}
     setIsButtonDisabled(true)
     setShowClue(false)
     if (quizQandA[quizSettings.question_number-1][1].toLowerCase() === myAnswer.toLowerCase()) {
@@ -175,7 +163,7 @@ const QuizContainer = () => {
 
   const handlePass = async() => {
     setIsButtonDisabled(true)
-    if (!await checkUserDailyCount("arthis@mail.com")) {return}
+    if (!await checkUserDailyCount(session.data.user.email)) {return}
     let numberOfGoodAnswers = localStorage.getItem('numberOfGoodAnswers')
     //alert("The answer was "+quizQandA[quizSettings.question_number-1][1]+", too bad !"+"\n"+numberOfGoodAnswers+"/"+quizSettings.total_number+" corrects")
     setIsCorrect(false)
@@ -220,69 +208,75 @@ const QuizContainer = () => {
 
   return (
     <>
-    <br/><br/>
-    <div style={{ width: "45%", margin: "auto", paddingLeft: "20px", paddingRight: "20px", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px" }}>
+    <div style={{ height: "100vh", backgroundColor: "#070707" }} >
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <NavBar />
+      </div>
+      <br/><br/>
+      <div style={{ width: "45%", margin: "auto", paddingLeft: "20px", paddingRight: "20px", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px" }}>
 
-      {/*rend les components en fonction de ce qu'on décide de mettre dans 'const quizSettings'*/}
-      <br/>
-      <h1 style={{fontSize: '48px'}}>{quizSettings.quiz_title}</h1>
-      <br/>
-      {showResults === false ? (
-        <>
-          Question {quizSettings.question_number} of {quizSettings.total_number}
-          <br/><br/>
-          <h3 style={{fontSize: '24px'}}>{quizSettings.question}</h3>
-          <br/>
-          <br/>
-          {/*si quiz de type 'image'...*/}
-          {quizSettings.type === 'image' && (
-            <>
-                <img style={{ display: 'inline-block' }} src={quizSettings.imageUrl} alt={quizSettings.imageAlt} width={250} height={"auto"} />
-                <p>
-                    <br/><br/>
-                    Question {quizSettings.question_number} of {quizSettings.total_number}
-                </p>
-            </>
-          )}
-          {/*si quiz de type 'text'...*/}
-          {quizSettings.type === 'text' && (
-            <>
-              <h1 style={{ fontSize: '48px' }}>{quizQandA[quizSettings.question_number-1][0]}</h1>
-              <br/>
-              <div>
-                <span style={{fontSize: '28px'}}>&nbsp;<span className={`fade-in ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: color}}>{message}</span>&nbsp;</span>
-              </div>
-            </>
-          )}
-          <br/>
-          {/*si réponse de type 'text'...*/}
-          {quizSettings.response_type === 'text' && (
-            <input style={{width: 300, height: 40, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best!..." value={myAnswer} onChange={(event) => setMyAnswer(event.target.value)} onKeyDown={handleKeyDown} />
-          )}
-          <br/>
-          {showClue === true ? (
-              <span>Clue: {clue}</span>
-              ) : (
-              <button style={{fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {quizSettings.clue_price} xp for a clue !</button>
-            )
-          }
-          <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={handleResponse} disabled={isButtonDisabled}><b>Answer</b></button>
-          <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#ffffff"}} onClick={handlePass} >I don't know</button>
-          <br/>
-        </>
-      ) : (
-        <>
-          RESULTS
-          <br/><br/>
-          <span>Number of good answers: {numOfGoodA}<br/></span>
-          <span>Number of requested clues: {numOfReqC}<br/><br/></span>
-          <span>XP earned: {score} / {maxScore}<br/></span>
-          <br/><br/>
-          <button style={{width: "120px", border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "30px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "black", backgroundColor: "DodgerBlue"}} onClick={handleHomeRedirection}><b>Home</b></button>
-          <button style={{width: "120px", border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "30px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "black", backgroundColor: "DodgerBlue"}} onClick={handleTakeAgain} ><b>Take again</b></button>
+        {/*rend les components en fonction de ce qu'on décide de mettre dans 'const quizSettings'*/}
+        <br/>
+        <h1 style={{fontSize: '48px'}}>{quizSettings.quiz_title}</h1>
+        <br/>
+        {showResults === false ? (
+          <>
+            Question {quizSettings.question_number} of {quizSettings.total_number}
+            <br/><br/>
+            <h3 style={{fontSize: '24px'}}>{quizSettings.question}</h3>
+            <br/>
+            <br/>
+            {/*si quiz de type 'image'...*/}
+            {quizSettings.type === 'image' && (
+              <>
+                  <img style={{ display: 'inline-block' }} src={quizSettings.imageUrl} alt={quizSettings.imageAlt} width={250} height={"auto"} />
+                  <p>
+                      <br/><br/>
+                      Question {quizSettings.question_number} of {quizSettings.total_number}
+                  </p>
+              </>
+            )}
+            {/*si quiz de type 'text'...*/}
+            {quizSettings.type === 'text' && (
+              <>
+                <h1 style={{ fontSize: '48px' }}>{quizQandA[quizSettings.question_number-1][0]}</h1>
+                <br/>
+                <div>
+                  <span style={{fontSize: '28px'}}>&nbsp;<span className={`fade-in ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: color}}>{message}</span>&nbsp;</span>
+                </div>
+              </>
+            )}
+            <br/>
+            {/*si réponse de type 'text'...*/}
+            {quizSettings.response_type === 'text' && (
+              <input style={{width: 300, height: 40, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best!..." value={myAnswer} onChange={(event) => setMyAnswer(event.target.value)} onKeyDown={handleKeyDown} />
+            )}
+            <br/>
+            {showClue === true ? (
+                <span>Clue: {clue}</span>
+                ) : (
+                <button style={{fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {quizSettings.clue_price} xp for a clue !</button>
+              )
+            }
+            <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={handleResponse} disabled={isButtonDisabled}><b>Answer</b></button>
+            <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#ffffff"}} onClick={handlePass} >I don't know</button>
+            <br/>
+          </>
+        ) : (
+          <>
+            RESULTS
+            <br/><br/>
+            <span>Number of good answers: {numOfGoodA}<br/></span>
+            <span>Number of requested clues: {numOfReqC}<br/><br/></span>
+            <span>XP earned: {score} / {maxScore}<br/></span>
+            <br/><br/>
+            <button style={{width: "120px", border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "30px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "black", backgroundColor: "DodgerBlue"}} onClick={handleHomeRedirection}><b>Home</b></button>
+            <button style={{width: "120px", border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "30px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "black", backgroundColor: "DodgerBlue"}} onClick={handleTakeAgain} ><b>Take again</b></button>
 
-        </>
-      )}
+          </>
+        )}
+      </div>
+      <br/><br/>
     </div>
     </>
   )

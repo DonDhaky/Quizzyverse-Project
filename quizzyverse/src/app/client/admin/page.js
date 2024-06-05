@@ -359,7 +359,7 @@ const AdminPanel = () => {
                             </tr>
 
                             <tr>
-                                <th>API path:</th>
+                                <th>External API request path:</th>
                                 <td>
                                 <input
                                     style={{width: "100%", paddingLeft: "7px"}}
