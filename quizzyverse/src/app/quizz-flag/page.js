@@ -4,7 +4,7 @@ import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-
+import NavBar from '../components/Navbar';
 // Thème du quiz
 const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
@@ -122,7 +122,7 @@ const Page = () => {
 
     return (
         <div className="flex items-center justify-center mt-10 flex-col">
-            <h1 className="text-3xl">Quizzyverse</h1>
+            <NavBar/>
             <h6 className="mt-10">{quizzFlag}</h6>
             <div className="container mx-auto p-4">
                 <div className="max-w-sm mx-auto bg-white shadow-md rounded-md overflow-hidden">
