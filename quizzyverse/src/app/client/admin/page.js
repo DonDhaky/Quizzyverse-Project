@@ -13,7 +13,7 @@ const AdminPanel = () => {
         newUserToUpdate[index][field] = event.target.value
         setUserToUpdate(newUserToUpdate)
       }
-
+      
     useEffect(() => {
         getUsers()
     }, [])

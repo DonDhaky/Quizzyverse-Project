@@ -1,5 +1,6 @@
 "use client";
 
+import NavBar from "../components/Navbar";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -22,8 +23,9 @@ const Login = () => {
   };
 
     return (
-        <div>
-        <div className="mx-auto max-w-screen-xl px-4 py-8">
+      <main className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
+        <NavBar/>
+      <div className="mx-auto max-w-screen-xl px-4 py-8">
           <div className="mb-6 flex justify-center">
             <h2 className="text-2xl font-semibold">Login</h2>
           </div>
@@ -52,7 +54,7 @@ const Login = () => {
             </div>
           </div>
         </div>
-      </div>
+      </main>
     );
 }
 

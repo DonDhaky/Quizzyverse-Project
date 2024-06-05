@@ -67,7 +67,7 @@ export default function User() {
 
   const unConnect = async () => {
     signOut();
-    router.replace();
+    router.replace('/');
   };
 
   return (
