@@ -31,7 +31,7 @@ export default function NavBar() {
               Profile
             </Link>
             {is_admin && (
-              <Link className="text-white font-bold" href="/admin">
+              <Link className="text-white font-bold" href="/client/admin">
                 Admin
               </Link>
             )}
