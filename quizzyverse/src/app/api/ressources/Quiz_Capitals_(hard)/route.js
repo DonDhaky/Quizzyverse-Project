@@ -18,14 +18,14 @@ export async function GET(request, context){
 Ci-dessous:
 
 getData()
-    fetchAPIData()
+    fetchCountries()
 
 */
 
 ////////////////////////////
-// fetch whole api data
-const fetchAPIData = async() => {
-    console.log("   fetchAPIData()");
+// fetch whole countries db
+const fetchCountries = async() => {
+    console.log("   fetchCountries()");
     try {
         const response = await fetch(quizSettings.api_path, {
         method: 'GET',
@@ -54,7 +54,7 @@ const getData = async() => {
 
     ///// fetches db if not already done /////
     //if (!showDiv) {
-      myStringObj = await fetchAPIData()
+      myStringObj = await fetchCountries()
       console.log("suite...");
     //}
     console.log("===> myStringObj\n", myStringObj);

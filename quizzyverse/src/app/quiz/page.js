@@ -11,26 +11,37 @@ import { addXp } from "/src/app/api/users/xp/addXp"
 
 const QuizContainer = () => {
 
+
+  const [userIsLogged, setUserIsLogged] = useState(false)
+
   const session = useSession()
-  console.log(session);
-  if (session.data != null) {
+  //console.log(session);
+  if (session.data != null && userIsLogged === false) {
     console.log(session.data);
     console.log(session.data.user.email);
     console.log(session.status);
+    setUserIsLogged(true)
   }
 
   const [darkMode, setDarkMode] = useState(false)
 
+  const [delayPassed, setDelayPassed] = useState(false)
+
   const [quizSettings, setQuizSettings] = useState(null)
   const [quizQandA, setQuizQandA] = useState(null)
 
-  const [myCustomData, setMyCustomData] = useState(null)
+  //const [myCustomData, setMyCustomData] = useState(null)
 
   const [showClue, setShowClue] = useState(false)
   const [clue, setClue] = useState(null)
   const [isVisible, setIsVisible] = useState(false)
   const [color, setColor] = useState(null)
   const [myAnswer, setMyAnswer] = useState('')
+
+  const [A, setA] = useState("Answer A")
+  const [B, setB] = useState("Answer B")
+  const [C, setC] = useState("Answer C")
+  const [D, setD] = useState("Answer D")
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
@@ -60,13 +71,10 @@ const QuizContainer = () => {
       //}
   }
 
-
   useEffect(() => {
     const quizName = localStorage.getItem('quizName')
     localStorage.setItem("numberOfGoodAnswers", 0);
     localStorage.setItem("numberOfRequestedClues", 0);
-
-
 
     const getquizSettings = (async() => {
         const response = await fetch(`/api/ressources/${quizName}`)
@@ -75,6 +83,12 @@ const QuizContainer = () => {
         //initialise le data du quiz ICI:
         setQuizSettings(data.quizSettings)
         setQuizQandA(data.QandA_array)
+        if (data.quizSettings.response_type === 'mcq') {
+          setA(data.QandA_array[data.quizSettings.question_number-1][1][0].replaceAll("&#039;", "'"))
+          setB(data.QandA_array[data.quizSettings.question_number-1][1][1].replaceAll("&#039;", "'"))
+          setC(data.QandA_array[data.quizSettings.question_number-1][1][2].replaceAll("&#039;", "'"))
+          setD(data.QandA_array[data.quizSettings.question_number-1][1][3].replaceAll("&#039;", "'"))
+        }
     })
 
     const setQuiz = async() => {
@@ -82,6 +96,11 @@ const QuizContainer = () => {
       //myCustomFetch()
     }
     setQuiz()
+
+    setTimeout(() => {
+      setDelayPassed(true)
+    }, 2000)
+
   }, [])
 
 
@@ -108,6 +127,8 @@ const QuizContainer = () => {
 
   //////////
   //BUTTONS
+
+  //BUTTON CLUE
   const handleClue = async() => {
     if (!await checkUserDailyCount(session.data.user.email)) {return}
     //console.log(quizSettings.clue);
@@ -121,46 +142,86 @@ const QuizContainer = () => {
     setShowClue(true)
   }
 
+  //BUTTON ANSWER
   const handleResponse = async(event) => {
     event.preventDefault()
     if (!await checkUserDailyCount(session.data.user.email)) {return}
     setIsButtonDisabled(true)
     setShowClue(false)
-    if (quizQandA[quizSettings.question_number-1][1].toLowerCase() === myAnswer.toLowerCase()) {
-      //setNumberOfGoodAnswers(count + 1)
-      let numberOfGoodAnswers = localStorage.getItem('numberOfGoodAnswers')
-      numberOfGoodAnswers = Number(numberOfGoodAnswers)+1
-      localStorage.setItem("numberOfGoodAnswers", numberOfGoodAnswers)
-      //alert(myAnswer+", correct !"+"\n"+numberOfGoodAnswers+"/"+quizSettings.total_number+" corrects")
-      setIsCorrect(true)
-      setMessage(myAnswer+", correct !")
-      setColor("green")
-      setIsVisible(true)
-      setTimeout(() => {
-        setIsVisible(false)
-      }, 3000)
-    } else {
-      setIsCorrect(false)
-      setMessage("Nope... "+quizQandA[quizSettings.question_number-1][1]+", too bad!")
-      setColor("red")
-      setIsVisible(true)
-      setTimeout(() => {
-        setIsVisible(false)
-      }, 3000)
-      //alert("Nope... "+quizQandA[quizSettings.question_number-1][1]+", not "+myAnswer+"...")
+
+    console.log(quizSettings.response_type);
+    if (quizSettings.response_type === "text") {
+      if (quizQandA[quizSettings.question_number-1][1].toLowerCase() === myAnswer.toLowerCase()) {
+        //setNumberOfGoodAnswers(count + 1)
+        let numberOfGoodAnswers = localStorage.getItem('numberOfGoodAnswers')
+        numberOfGoodAnswers = Number(numberOfGoodAnswers)+1
+        localStorage.setItem("numberOfGoodAnswers", numberOfGoodAnswers)
+        //alert(myAnswer+", correct !"+"\n"+numberOfGoodAnswers+"/"+quizSettings.total_number+" corrects")
+        setIsCorrect(true)
+        setMessage(myAnswer+", correct !")
+        setColor("green")
+        setIsVisible(true)
+        setTimeout(() => {
+          setIsVisible(false)
+        }, 3000)
+      } else {
+        setIsCorrect(false)
+        setMessage("Nope... "+quizQandA[quizSettings.question_number-1][1]+", too bad!")
+        setColor("red")
+        setIsVisible(true)
+        setTimeout(() => {
+          setIsVisible(false)
+        }, 3000)
+        //alert("Nope... "+quizQandA[quizSettings.question_number-1][1]+", not "+myAnswer+"...")
+      }
+    } else { //response_type == mcq
+      console.log("MCQ");
+      console.log(quizSettings.question_number);
+      console.log(quizQandA[quizSettings.question_number-1][0]);
+      console.log(event.target.innerHTML);
+      if (quizQandA[quizSettings.question_number-1][2].toLowerCase().replaceAll("&#039;", "'") === event.target.innerHTML.toLowerCase().replaceAll("&#039;", "'")) {
+        console.log("GOOD ANSWER");
+        let numberOfGoodAnswers = localStorage.getItem('numberOfGoodAnswers')
+        numberOfGoodAnswers = Number(numberOfGoodAnswers)+1
+        localStorage.setItem("numberOfGoodAnswers", numberOfGoodAnswers)
+        setIsCorrect(true)
+        setMessage(event.target.innerHTML+", correct !")
+        setColor("green")
+        setIsVisible(true)
+        setTimeout(() => {
+          setIsVisible(false)
+        }, 3000)
+      } else {
+        console.log("BAD ANSWER");
+        setIsCorrect(false)
+        setMessage(quizQandA[quizSettings.question_number-1][2])
+        setColor("red")
+        setIsVisible(true)
+        setTimeout(() => {
+          setIsVisible(false)
+        }, 3000)
+      }
     }
     setTimeout(() => {
       setMyAnswer('')
       setQuizSettings({...quizSettings, question_number: quizSettings.question_number + 1})
       setIsButtonDisabled(false)
+
     
       if (quizSettings.question_number == quizSettings.total_number) {
         displayResults()
         //window.location.href = "/"
       }
+      if (quizSettings.response_type === "mcq" && quizSettings.question_number != quizSettings.total_number) {
+        setA(quizQandA[quizSettings.question_number][1][0].replaceAll("&#039;", "'"))
+        setB(quizQandA[quizSettings.question_number][1][1].replaceAll("&#039;", "'"))
+        setC(quizQandA[quizSettings.question_number][1][2].replaceAll("&#039;", "'"))
+        setD(quizQandA[quizSettings.question_number][1][3].replaceAll("&#039;", "'"))
+      }
     }, 4000)
   }
 
+  //BUTTON I DON'T KNOW
   const handlePass = async() => {
     setIsButtonDisabled(true)
     if (!await checkUserDailyCount(session.data.user.email)) {return}
@@ -208,7 +269,7 @@ const QuizContainer = () => {
 
   return (
     <>
-    <div style={{ height: "100vh", backgroundColor: "#070707" }} >
+    <div style={{ minHeight: "100vh", backgroundColor: "#070707" }} >
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <NavBar />
       </div>
@@ -239,7 +300,7 @@ const QuizContainer = () => {
             {/*si quiz de type 'text'...*/}
             {quizSettings.type === 'text' && (
               <>
-                <h1 style={{ fontSize: '48px' }}>{quizQandA[quizSettings.question_number-1][0]}</h1>
+                {delayPassed ? (<h1 style={{ fontSize: '48px' }}>{quizQandA[quizSettings.question_number-1][0]}</h1>) : null}
                 <br/>
                 <div>
                   <span style={{fontSize: '28px'}}>&nbsp;<span className={`fade-in ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: color}}>{message}</span>&nbsp;</span>
@@ -248,18 +309,26 @@ const QuizContainer = () => {
             )}
             <br/>
             {/*si réponse de type 'text'...*/}
-            {quizSettings.response_type === 'text' && (
+            {quizSettings.response_type === 'text' ? (
               <input style={{width: 300, height: 40, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best!..." value={myAnswer} onChange={(event) => setMyAnswer(event.target.value)} onKeyDown={handleKeyDown} />
-            )}
-            <br/>
-            {showClue === true ? (
-                <span>Clue: {clue}</span>
-                ) : (
-                <button style={{fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {quizSettings.clue_price} xp for a clue !</button>
-              )
+            ) : 
+            <div>
+              <div><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "0px", marginBottom: "20px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} value={A} onClick={() => {handleResponse(event)}} >{A}</button><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "20px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={() => {setMyAnswer("Resp_B") ; handleResponse(event)}} >{B}</button></div>
+              <div><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "0px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={() => {setMyAnswer("Resp_C") ; handleResponse(event)}} >{C}</button><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={() => {setMyAnswer("Resp_D") ; handleResponse(event)}} >{D}</button></div>
+            </div>
             }
-            <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={handleResponse} disabled={isButtonDisabled}><b>Answer</b></button>
-            <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#ffffff"}} onClick={handlePass} >I don't know</button>
+
+            <br/>
+            {quizSettings.clue_activated ? (
+              showClue ? (
+                  <span>Clue: {clue}</span>
+                  ) : (
+                  <button style={{marginRight: "50px", fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {quizSettings.clue_price} xp for a clue !</button>
+                )
+              )
+            : (null)}
+            {quizSettings.response_type === 'text' ? (<button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginRight: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={handleResponse} disabled={isButtonDisabled}><b>Answer</b></button>) : null}
+            <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#ffffff"}} onClick={handlePass} >I don't know</button>
             <br/>
           </>
         ) : (
