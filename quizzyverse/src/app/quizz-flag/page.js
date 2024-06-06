@@ -11,7 +11,7 @@ const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
 const Page = () => {
     // j'utilise useState pour définir des états de base pour les varaibles venant à être modifiées
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [fetchedImage, setFetchedImage] = useState('');
     const [fetchedAnswer, setFetchedAnswer] = useState('');
     const [fetchedTip, setFetchedTip] = useState("");
@@ -22,13 +22,21 @@ const Page = () => {
     const [resultMessage, setResultMessage] = useState(''); // stockage du message de résultat
     const [xpWon, setXpWon] = useState(0); // xp gagnée à incrémenter et à ajouter au user dans la DB ultérieurement
     const [totalXp, setTotalXp] = useState(0); // total XP gagné par le joueur à la fin du quizz
+    const [email, setEmail] = useState('');
 
     const router = useRouter();
 
-    console.log(session);
+    if (status === "unauthenticated") {
+        window.location.href = "/login";
+        return null;
+      }
 
     // J'utilise "useEffect" pour récupérer les données de l'api lors du montage du composant
     useEffect(() => {
+        if (session) {
+            setEmail(session.user.email);
+          };
+
         const fetchQuizzData = async () => {
             try {
                 const response = await fetch('/api/flags');
@@ -63,7 +71,7 @@ const Page = () => {
             window.removeEventListener('popstate', handlePopState);
         };
 
-    }, [questionNumber, router]);
+    }, [questionNumber, router, session]);
 
     const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB en cas de bonne réponse à la fin
         if (!session) return;
@@ -86,29 +94,8 @@ const Page = () => {
         }
     };
 
-    // const updateXpInDb2 = async (xpWon) => { // pour ajouter l'xp à mon user dans la DB en cas de mauvaise réponse à la fin
-    //     if (!session) return;
-
-    //     try {
-    //         const response = await fetch('/api/users/xp-flags', {
-    //             method: 'POST',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify({ xp: xpWon }),
-    //         });
-
-    //         if (!response.ok) {
-    //             throw new Error('Failed to update XP');
-    //         }
-
-    //         const data = await response.json();
-    //         console.log(data.message);
-    //     } catch (error) {
-    //         console.error('Error updating XP:', error);
-    //     }
-    // };
-
     const validateAnswer = async() => { // bouton de validation de la réponse et affichage du pop-up
-        if (!await checkUserDailyCount("arthis@mail.com")) // placer le user actuel avec "UseSession"
+        if (!await checkUserDailyCount(email)) // placer le user actuel avec "UseSession"
         {return};
 
         let message = '';
