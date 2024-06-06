@@ -42,9 +42,6 @@ export default function Home() {
         <Link href='/Lolverse' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
           Start Quiz
         </Link>
-        {/* <Link href='/client/admin' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
-          Start admin
-        </Link> */}
         <Link href='/quizz-flag' target="_blank" className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
           Start Quiz Flag
         </Link>
