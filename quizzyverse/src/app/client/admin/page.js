@@ -588,7 +588,7 @@ const AdminPanel = () => {
                     <br/><br/>&nbsp;
                 {/*<button style={{width: "80px", backgroundColor: "DarkCyan"}} onClick={() => {handleQuizSubmit(form.quiz_folder, "settings.json", content)}}>&nbsp;Write file&nbsp;</button>*/}
             </div>
-        </div>
+        </>
     );
 };
 

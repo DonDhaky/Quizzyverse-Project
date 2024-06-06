@@ -274,7 +274,7 @@ const QuizContainer = () => {
 
   return (
     <>
-    <div style={{ minHeight: "100vh", backgroundColor: "#070707" }} >
+    <div style={{ minHeight: "100vh", backgroundColor: "white" }} >
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <NavBar />
