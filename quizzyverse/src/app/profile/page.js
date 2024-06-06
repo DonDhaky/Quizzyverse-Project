@@ -1,11 +1,9 @@
 "use client";
 
-import Link from "next/link";
 import NavBar from "../components/Navbar";
 import { useState, useEffect } from "react";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
-import { Router } from "next/router";
 import { useRouter } from "next/navigation";
 
 
@@ -66,8 +64,8 @@ export default function User() {
   };
 
   const unConnect = async () => {
-    signOut();
-    router.replace();
+    await signOut({redirect: false});
+    router.replace('/');
   };
 
   return (
@@ -131,13 +129,6 @@ export default function User() {
             Delete
           </button>
         </div>
-
-        <div className="mt-8">
-          <Link href="/" passHref>
-            <h1 className="text-blue-500 font-semibold underline">Accueil</h1>
-          </Link>
-        </div>
-
         <div className="mt-8">
           <button
             onClick={unConnect}
