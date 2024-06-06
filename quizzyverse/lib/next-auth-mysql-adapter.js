@@ -22,6 +22,11 @@ const MySQLAdapter = {
     const result = await query('SELECT * FROM users WHERE email = ?', [email]);
     return result.length ? result[0] : null;
   },
+
+  async updateUserToPremium(email) {
+    const result = await query('UPDATE users SET is_premium = 1 WHERE email = ?', [email]);
+    return result;
+  },
   
   // async createUser(user) {
   //   const result = await query(

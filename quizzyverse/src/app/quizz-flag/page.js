@@ -4,13 +4,15 @@ import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
+
 import NavBar from '../components/Navbar';
 // Thème du quiz
 const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
 const Page = () => {
     // j'utilise useState pour définir des états de base pour les varaibles venant à être modifiées
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
     const [fetchedImage, setFetchedImage] = useState('');
     const [fetchedAnswer, setFetchedAnswer] = useState('');
     const [fetchedTip, setFetchedTip] = useState("");
@@ -21,10 +23,21 @@ const Page = () => {
     const [resultMessage, setResultMessage] = useState(''); // stockage du message de résultat
     const [xpWon, setXpWon] = useState(0); // xp gagnée à incrémenter et à ajouter au user dans la DB ultérieurement
     const [totalXp, setTotalXp] = useState(0); // total XP gagné par le joueur à la fin du quizz
+    const [email, setEmail] = useState('');
 
     const router = useRouter();
+
+    if (status === "unauthenticated") {
+        window.location.href = "/login";
+        return null;
+      }
+
     // J'utilise "useEffect" pour récupérer les données de l'api lors du montage du composant
     useEffect(() => {
+        if (session) {
+            setEmail(session.user.email);
+          };
+
         const fetchQuizzData = async () => {
             try {
                 const response = await fetch('/api/flags');
@@ -59,9 +72,9 @@ const Page = () => {
             window.removeEventListener('popstate', handlePopState);
         };
 
-    }, [questionNumber, router]);
+    }, [questionNumber, router, session]);
 
-    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB
+    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB en cas de bonne réponse à la fin
         if (!session) return;
 
         try {
@@ -78,25 +91,33 @@ const Page = () => {
             const data = await response.json();
             console.log(data.message);
         } catch (error) {
-            console.error('Error updating XP:', error);
+            console.error(error);
         }
     };
 
-    const validateAnswer = () => { // bouton de validation de la réponse et affichage du pop-up
+    const validateAnswer = async() => { // bouton de validation de la réponse et affichage du pop-up
+        if (!await checkUserDailyCount(email)) // placer le user actuel avec "UseSession"
+        {return};
+
         let message = '';
         if (userAnswer != '' & userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) { // pour la sensibilité à la casse
             const newXp = xpWon + 10; // incrémentation de l'XP si la réponse est correcte
             setXpWon(newXp);
             setTotalXp(prevTotalXp => prevTotalXp + 10);
+
             if (questionNumber >= 5) {
                 message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
+                updateXpInDb(newXp); // ajout de l'xp à la db à la fin du quizz
             } else {
                 message = 'Bonne réponse ! + 10 xp !';
             }
+
         } else {
+
             message = `Mauvaise réponse, c'était ${fetchedAnswer} !`;
             if (questionNumber >= 5) {
                 message += ' Vous avez gagné ' + xpWon + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
+                updateXpInDb(xpWon); // ajout de l'xp à la db à la fin du quizz
             }
         }
         setResultMessage(message);
@@ -105,7 +126,6 @@ const Page = () => {
 
     const handleNextQuestion = () => { // bouton de validation du pop-up et affichage de la nouvelle question
         if (questionNumber >= 5) {
-            updateXpInDb(newXp); // ajout de l'xp à la db quand le user retourne à l'accueil à la fin du quizz
             router.push('/');
             // ajouter la limitation de réalisation du quizz
         } else {
