@@ -255,3 +255,38 @@ See the [open issues](https://github.com/EpitechCodingAcademyPromo2024/C-COD-260
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[NextAuth]: https://img.shields.io/npm/v/next-auth?color=green&label=next-auth
+[NextAuth-url]: https://next-auth.js.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[Express.js]: https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white
+[Express.js-url]: https://expressjs.com/
+[MySQL]: https://img.shields.io/badge/MySQL-00000F?style=for-the-badge&logo=mysql&logoColor=white
+[MySQL-url]: https://www.mysql.com/
+[TailwindCSS]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[TailwindCSS-url]: https://tailwindcss.com/
+[Bcrypt]: https://img.shields.io/badge/bcrypt-888888?style=for-the-badge&logo=bcrypt&logoColor=white
+[Bcrypt-url]: https://www.npmjs.com/package/bcrypt
+[Dotenv]: https://img.shields.io/badge/dotenv-563D7C?style=for-the-badge&logo=dotenv&logoColor=white
+[Dotenv-url]: https://www.npmjs.com/package/dotenv
+[NodeFetch]: https://img.shields.io/badge/node--fetch-000000?style=for-the-badge&logo=node-fetch&logoColor=white
+[NodeFetch-url]: https://www.npmjs.com/package/node-fetch
+[TypeScript]: https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white
+[TypeScript-url]: https://www.typescriptlang.org/
+[ESLint]: https://img.shields.io/badge/ESLint-4B32C3?style=for-the-badge&logo=eslint&logoColor=white
+[ESLint-url]: https://eslint.org/
+
+
+
+
+
+
+
+
+
+
