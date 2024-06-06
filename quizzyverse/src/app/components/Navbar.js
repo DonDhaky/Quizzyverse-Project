@@ -7,15 +7,16 @@ export default function NavBar() {
   const { data: session, status } = useSession();
   const isAuthenticated = status === "authenticated";
   const is_admin = session?.user?.is_admin === 1;
+  const xp = session?.user?.xp;
 
   return (
     <nav className="bg-blue-600 p-4 rounded-lg flex justify-between items-center w-full max-w-6xl mb-8">
       <div className="left flex space-x-4">
-        <Link className="text-white font-bold" href="/about">
+        {/* <Link className="text-white font-bold" href="/about">
           About
-        </Link>
+        </Link> */}
         <Link className="text-white font-bold" href="/xp">
-          XP
+          {xp} XP
         </Link>
         <Link className="text-white font-bold" href="/ranking">
           Ranking

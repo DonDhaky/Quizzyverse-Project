@@ -35,6 +35,7 @@ export const authHandler = {
         token.id = user.id;
         token.is_admin = user.is_admin;
         token.is_premium = user.is_premium;
+        token.xp = user.xp;
         console.log('Dans le callback jwt, user.id et token.id : ', user.id, token.id);
       }
       return token;
@@ -43,7 +44,8 @@ export const authHandler = {
       session.user.id = token.id;
       session.user.is_admin = token.is_admin;
       session.user.is_premium = token.is_premium;
-       console.log('Dans le callback session, token.id et session.user.id : ', token.id, session.user.id, session.user.is_admin, session.user.is_premium);
+      session.user.xp = token.xp
+       console.log('Dans le callback session, token.id et session.user.id : ', token.id, session.user.id, session.user.is_admin, session.user.is_premium, session.user.xp);
       return session;
     },
   },
