@@ -64,18 +64,14 @@ export default function PaymentPage() {
   };
 
     return (
-    <div>
-
-        <div>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
             <NavBar />
-        </div>
-
         <div>
           <script async
                   src="https://js.stripe.com/v3/buy-button.js">
           </script>
           
-           <stripe-buy-button 
+           <stripe-buy-button
              buy-button-id="buy_btn_1PNtj1C4cFi9tQG7kG9yTJEh"
              publishable-key="pk_test_51PNtWxC4cFi9tQG7OGKsW5psT3Sa76IFgvYCTW2YttovZi2wI3ITjnRwSfW7TsKkQTepqVbbdCvI0pKtHBgx6Ltf00uifcqBdI"
            >
