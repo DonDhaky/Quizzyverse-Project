@@ -21,11 +21,13 @@ const QuizContainer = () => {
     console.log(session.data.user.email);
     console.log(session.status);
     setUserIsLogged(true)
+
   }
 
   const [darkMode, setDarkMode] = useState(false)
 
   const [delayPassed, setDelayPassed] = useState(false)
+
 
   const [quizSettings, setQuizSettings] = useState(null)
   const [quizQandA, setQuizQandA] = useState(null)
@@ -71,10 +73,13 @@ const QuizContainer = () => {
       //}
   }
 
+
   useEffect(() => {
     const quizName = localStorage.getItem('quizName')
     localStorage.setItem("numberOfGoodAnswers", 0);
     localStorage.setItem("numberOfRequestedClues", 0);
+
+
 
     const getquizSettings = (async() => {
         const response = await fetch(`/api/ressources/${quizName}`)
@@ -270,6 +275,7 @@ const QuizContainer = () => {
   return (
     <>
     <div style={{ minHeight: "100vh", backgroundColor: "#070707" }} >
+
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <NavBar />
       </div>
@@ -301,6 +307,7 @@ const QuizContainer = () => {
             {quizSettings.type === 'text' && (
               <>
                 {delayPassed ? (<h1 style={{ fontSize: '48px' }}>{quizQandA[quizSettings.question_number-1][0]}</h1>) : null}
+
                 <br/>
                 <div>
                   <span style={{fontSize: '28px'}}>&nbsp;<span className={`fade-in ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: color}}>{message}</span>&nbsp;</span>
@@ -329,6 +336,7 @@ const QuizContainer = () => {
             : (null)}
             {quizSettings.response_type === 'text' ? (<button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginRight: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={handleResponse} disabled={isButtonDisabled}><b>Answer</b></button>) : null}
             <button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#ffffff"}} onClick={handlePass} >I don't know</button>
+
             <br/>
           </>
         ) : (

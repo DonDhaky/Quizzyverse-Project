@@ -1,90 +1,96 @@
-"use client"
+'use client';
 
-import { useState, useEffect, useCallback } from 'react'
-import './admin.css'
-import NavBar from "/src/app/components/Navbar";
+import { useSession } from 'next-auth/react';
+import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
+import NavBar from '../../components/Navbar';
+import './admin.css';
 
 const AdminPanel = () => {
+    const { data: session, status } = useSession();
+    const router = useRouter();
+    const [users, setUsers] = useState([]);
+    const [userToUpdate, setUserToUpdate] = useState([]);
 
-    const [users, setUsers] = useState([])
-    const [userToUpdate, setUserToUpdate] = useState([{}])
+    useEffect(() => {
+        if (status === 'loading') return; // Do nothing while loading
+        if (!session || !session.user.is_admin) {
+            router.push('/login'); // Redirect if not authenticated or not admin
+        }
+    }, [session, status, router]);
 
     const handleUserInputChange = (event, index, field) => {
         const newUserToUpdate = [...userToUpdate]
         newUserToUpdate[index][field] = event.target.value
         setUserToUpdate(newUserToUpdate)
     }
-
-    //////////////////////////////////
-    // Get all or one user(s)
-    const getUsers = async(requestedUsers='all') => {
-        console.log(requestedUsers);
+//    const handleInputChange = (event, index, field) => {
+//        const newUserToUpdate = [...userToUpdate];
+//        newUserToUpdate[index][field] = event.target.value;
+//        setUserToUpdate(newUserToUpdate);
+//    };
+//
+//    useEffect(() => {
+//        if (session && session.user.is_admin) {
+//            getUsers();
+//        }
+//    }, [session]);
+    const getUsers = async (requestedUsers = 'all') => {
         try {
-            const response = await fetch('/api/users?requestedUsers='+requestedUsers, {
+            const response = await fetch(`/api/users?requestedUsers=${requestedUsers}`, {
                 method: 'GET',
-                headers: {'Content-Type': 'application/json'}
-            })
-            const data = await response.json()
-            console.log(data.users);
-            
-            if (requestedUsers == 'all') {setUsers(data.users)}
-            else {setUserToUpdate(data.users);}
-
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await response.json();
+            if (requestedUsers === 'all') {
+                setUsers(data.users);
+            } else {
+                setUserToUpdate(data.users);
+            }
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
-    }
+    };
 
-    //////////////////////////////////
-    // Update user
-    const updateUser = async(userToUpdate) => {
-        console.log(userToUpdate);
+    const updateUser = async (userToUpdate) => {
         try {
-            const response = await fetch(
-                '/api/users',
-                {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'
-                },
+            const response = await fetch('/api/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userToUpdate)
-            })
-            const data = await response.json()
-            console.log(data.user);
-            window.location.href = '/client/admin'
+            });
+            const data = await response.json();
+            window.location.href = '/client/admin';
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
-    }
+    };
 
-    //////////////////////////////////
-    // Delete user
-    const deleteUser = async(userIdToDelete) => {
-        console.log(userIdToDelete);
-
+    const deleteUser = async (userIdToDelete) => {
         const confirm = window.confirm("Are you sure you want to delete this user?");
-
-        if (confirm) {
-            console.log("Deletion confirmed.");
-        } else {
-            console.log("Deletion canceled.");
-            return -1
+        if (!confirm) {
+            return;
         }
 
         try {
-            const response = await fetch(
-                '/api/users',
-                {
-                    method: 'DELETE',
-                    headers: {'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(userIdToDelete)
-            })
-            const data = await response.json()
-            console.log(data.user);
-            window.location.href = '/client/admin'
+            const response = await fetch('/api/users', {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: userIdToDelete })
+            });
+            const data = await response.json();
+            window.location.href = '/client/admin';
         } catch (error) {
-            console.error(error)
+            console.error(error);
         }
+    };
+
+    if (status === 'loading') {
+        return <div>Loading...</div>;
+    }
+
+    if (!session || !session.user.is_admin) {
+        return <div>Redirecting...</div>;
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -232,7 +238,7 @@ const AdminPanel = () => {
                         <tbody>
                         {users.map((user, index) => (
                             <tr key={user.id}>
-                                <td style={index === users.length-1 ? {borderBottomLeftRadius: "10px"} : {}}>{user.id}</td>
+                                <td style={index === users.length - 1 ? { borderBottomLeftRadius: "10px" } : {}}>{user.id}</td>
                                 <td>{user.is_admin}</td>
                                 <td>{user.username}</td>
                                 <td>{user.country}</td>
@@ -241,7 +247,12 @@ const AdminPanel = () => {
                                 <td>{user.is_premium}</td>
                                 <td>{user.daily_count}</td>
                                 <td>{user.renewed_at}</td>
-                                <td style={index === users.length-1 ? {borderBottomRightRadius: "10px"} : {}}><button style={{backgroundColor: "green"}} onClick={() => {getUsers(user.id)}}>&nbsp;Modify&nbsp;</button>&nbsp;&nbsp;{user.is_admin === 0 ? (<>&nbsp;&nbsp;<button style={{backgroundColor: "red"}} onClick={() => {deleteUser(user.id)}}>&nbsp;Delete&nbsp;</button></>) : null}</td>
+                                <td style={index === users.length - 1 ? { borderBottomRightRadius: "10px" } : {}}>
+                                    <button style={{ backgroundColor: "green" }} onClick={() => getUsers(user.id)}>&nbsp;Modify&nbsp;</button>
+                                    {user.is_admin === 0 && (
+                                        <>&nbsp;&nbsp;<button style={{ backgroundColor: "red" }} onClick={() => deleteUser(user.id)}>&nbsp;Delete&nbsp;</button></>
+                                    )}
+                                </td>
                             </tr>
                         ))}
                         </tbody>
@@ -577,10 +588,9 @@ const AdminPanel = () => {
                     <br/><br/>&nbsp;
                 {/*<button style={{width: "80px", backgroundColor: "DarkCyan"}} onClick={() => {handleQuizSubmit(form.quiz_folder, "settings.json", content)}}>&nbsp;Write file&nbsp;</button>*/}
             </div>
-        </>
-    )
-}
-
-export default AdminPanel
+        </div>
+    );
+};
 
 // onChange={setUserToUpdate(...userToUpdate, id)}
+export default AdminPanel;

@@ -2,11 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-}
+} */
 
 /* @media (prefers-color-scheme: dark) {
   :root {
@@ -28,7 +28,7 @@ body {
 
 
 /* formulaire de connexion */
-.login-container {
+/* .login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -81,7 +81,7 @@ body {
 
 .login-form button[type="submit"]:hover {
   background-color: #0056b3;
-}
+} */
 
 
 @layer utilities {
