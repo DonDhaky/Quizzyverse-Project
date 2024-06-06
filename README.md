@@ -56,7 +56,7 @@
 </details>
 
 
-<!-- ABOUT THE PROJECT -->
+<-- ABOUT THE PROJECT -->
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
@@ -106,16 +106,17 @@ Make sure your node & npm version is updated, if not update it:
 ### Installation
 
 1. **Clone the repository stocked on Github**
-Check this doc if you don't know to do it : <a href='https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository'>**Doc**</a>
 
-In the terminal on your IDE:
-   ```sh
-git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard.git`
-```
-Navigate to the project directory:
-   ```sh
-cd C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard
-```
+  Check this doc if you don't know to do it : <a href='https://docs.github.com/en/repositories/creating-and-managing-      repositories/cloning-a-repository'>**Doc**</a>
+
+  . In the terminal on your IDE:
+     ```sh
+    git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard.git`
+    ```
+  . Navigate to the project directory:
+    ```sh
+    cd C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard
+    ```
 2. **Set up the MySQL database**
 
   . Open your MySQL client and create a new database called quizzyverse:
