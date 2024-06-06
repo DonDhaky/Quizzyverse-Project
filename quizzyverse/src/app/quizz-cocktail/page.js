@@ -5,10 +5,14 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
+import { addXp } from "../api/users/xp/addXp";
+import NavBar from '../components/Navbar';
+
 
 const quizzCocktail = "Guess the name of the cocktail from the picture !";
 
 const Page = () => {
+  
   const { data: session } = useSession();
   const [fetchedImage, setFetchedImage] = useState('');
   const [fetchedAnswer, setFetchedAnswer] = useState('');
@@ -20,8 +24,8 @@ const Page = () => {
   const [resultMessage, setResultMessage] = useState('');
   const [xpWon, setXpWon] = useState(0);
   const [totalXp, setTotalXp] = useState(0);
+  const [email, setEmail] = useState('');
 
-  console.log(session);
   const router = useRouter();
 
   const fetchQuizzData = useCallback(async () => {
@@ -42,6 +46,10 @@ const Page = () => {
   }, []);
 
   useEffect(() => {
+    if (session) {
+      setEmail(session.user.email);
+    }
+
     fetchQuizzData();
 
     const handleBeforeUnload = (event) => {
@@ -62,12 +70,11 @@ const Page = () => {
       window.removeEventListener('popstate', handlePopState);
     };
 
-  }, [questionNumber, router, fetchQuizzData]);
+  }, [questionNumber, router, session, fetchQuizzData]);
 
   const validateAnswer = useCallback(async (event) => {
-    if (!await checkUserDailyCount("arthis@mail.com")) {
-      return;
-    }
+    if (!await checkUserDailyCount(email)) // placer le user actuel avec "UseSession"
+        {return};
 
     let message = '';
     if (userAnswer != '' & userAnswer.trim().toLowerCase() === fetchedAnswer.trim().toLowerCase()) {
@@ -77,6 +84,10 @@ const Page = () => {
 
       if (questionNumber >= 5) {
         message = 'Right answer ! You have won' + newXp + ' xp ! Come back tomorrow or upgrade to unlimited play !';
+        let score = newXp;
+                if (score > 0){
+                    addXp(email, score)
+              }
       } else {
         message = 'Right answer ! + 10 xp !';
       }
@@ -86,6 +97,10 @@ const Page = () => {
       message = `Wrong answer, it was ${fetchedAnswer} !`;
       if (questionNumber >= 5) {
         message += ' You have won ' + xpWon + ' xp ! Come back tomorrow or upgrade to unlimited play !';
+        let score = xpWon;
+                if (score > 0){
+                    addXp(email, score)
+              }
       }
     }
     setResultMessage(message);
@@ -116,7 +131,7 @@ const Page = () => {
 
   return (
     <div className="flex items-center justify-center mt-10 flex-col">
-      <h1 className="text-3xl">Quizzyverse</h1>
+      <NavBar/>
       <h6 className="mt-10">{quizzCocktail}</h6>
       <div className="container mx-auto p-4">
         <div className="max-w-sm mx-auto bg-white shadow-md rounded-md overflow-hidden">

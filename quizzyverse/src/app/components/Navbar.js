@@ -15,9 +15,6 @@ export default function NavBar() {
         {/* <Link className="text-white font-bold" href="/about">
           About
         </Link> */}
-        <Link className="text-white font-bold" href="/xp">
-          {xp} XP
-        </Link>
         <Link className="text-white font-bold" href="/ranking">
           Ranking
         </Link>
@@ -30,6 +27,9 @@ export default function NavBar() {
       <div className="right flex space-x-4">
         {isAuthenticated ? (
           <>
+            <div className="text-white font-bold">
+            {xp} XP
+            </div>
             <Link className="text-white font-bold" href="/profile">
               Profile
             </Link>

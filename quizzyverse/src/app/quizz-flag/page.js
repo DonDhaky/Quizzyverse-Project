@@ -4,9 +4,10 @@ import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
-
+import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt";
+import { addXp } from "../api/users/xp/addXp";
 import NavBar from '../components/Navbar';
+
 // Thème du quiz
 const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
@@ -74,27 +75,6 @@ const Page = () => {
 
     }, [questionNumber, router, session]);
 
-    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB en cas de bonne réponse à la fin
-        if (!session) return;
-
-        try {
-            const response = await fetch('/api/users/xp-flags', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ xp: newXp }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update XP');
-            }
-
-            const data = await response.json();
-            console.log(data.message);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     const validateAnswer = async() => { // bouton de validation de la réponse et affichage du pop-up
         if (!await checkUserDailyCount(email)) // placer le user actuel avec "UseSession"
         {return};
@@ -107,7 +87,10 @@ const Page = () => {
 
             if (questionNumber >= 5) {
                 message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
-                updateXpInDb(newXp); // ajout de l'xp à la db à la fin du quizz
+                let score = newXp;
+                if (score > 0){
+                    addXp(email, score)
+              }  
             } else {
                 message = 'Bonne réponse ! + 10 xp !';
             }
@@ -117,7 +100,10 @@ const Page = () => {
             message = `Mauvaise réponse, c'était ${fetchedAnswer} !`;
             if (questionNumber >= 5) {
                 message += ' Vous avez gagné ' + xpWon + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
-                updateXpInDb(xpWon); // ajout de l'xp à la db à la fin du quizz
+                let score = xpWon;
+                if (score > 0){
+                    addXp(email, score)
+              }
             }
         }
         setResultMessage(message);
