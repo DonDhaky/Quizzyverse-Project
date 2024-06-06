@@ -139,9 +139,9 @@ cd C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard
     MYSQL_USER= your_username
     MYSQL_PASSWORD= your_password
     MYSQL_DATABASE=Quizzyverse
-   JWT_SECRET=your_jwt_secret
-   STRIPE_SECRET_KEY=your_stripe_secret_key
-   ```
+    JWT_SECRET=your_jwt_secret
+    STRIPE_SECRET_KEY=your_stripe_secret_key
+    ```
 
 4. **nstall dependencies**
    . Install NPM packages
