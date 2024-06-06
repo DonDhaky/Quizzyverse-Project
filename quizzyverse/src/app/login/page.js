@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { signIn } from 'next-auth/react';
-import 'tailwindcss/tailwind.css';
+// import 'tailwindcss/tailwind.css';
 import './login.css'
 
 const Login = () => {
