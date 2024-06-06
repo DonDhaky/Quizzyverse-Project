@@ -138,13 +138,13 @@ const AdminPanel = () => {
         console.log(form.rerender_hack)
     }
 */
-
+/*
     const handleQuizSubmit = () => {
             const newContent = `{\n\t"quiz_folder":"${form.quiz_folder}",\n\t"quiz_title": "${form.quiz_title}",\n\t"question": "${form.question}",\n\t"question_number": ${form.question_number},\n\t"total_number": ${form.total_number},\n\t"type": "${form.type}",\n\t"api_path": "${form.api_path}",\n\t"response_obj": "${form.response_obj}",\n\t"imageUrl": "${form.imageUrl}",\n\t"imageAlt": "${form.imageAlt}",\n\t"clue_activated": ${form.clue_activated},\n\t"show_clue": ${form.show_clue},\n\t"clue": "${form.clue}",\n\t"clue_price": ${form.clue_price},\n\t"response_type": "${form.response_type}",\n\t"xpPerGoodAnswer": ${form.xpPerGoodAnswer},\n\t"xpCostPerClue": ${form.xpCostPerClue}\n}`
 
             setContent(newContent)
     }
-
+*/
     //////////////////////////////////
     // Write file
     const writeFile = async(quizFolder, fileName) => {
