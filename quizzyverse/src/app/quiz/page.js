@@ -274,13 +274,13 @@ const QuizContainer = () => {
 
   return (
     <>
-    <div style={{ minHeight: "100vh", backgroundColor: "#070707" }} >
+    <div style={{ minHeight: "100vh", backgroundColor: "#070707", backgroundImage: `url('${quizSettings.imageUrl}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center" }} >
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <NavBar />
       </div>
       <br/><br/>
-      <div style={{ width: "45%", margin: "auto", paddingLeft: "20px", paddingRight: "20px", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px" }}>
+      <div style={{ width: "45%", minHeight: "50vh", margin: "auto", paddingLeft: "20px", paddingRight: "20px", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px", backgroundColor: "#070707ee"}}>
 
         {/*rend les components en fonction de ce qu'on décide de mettre dans 'const quizSettings'*/}
         <br/>

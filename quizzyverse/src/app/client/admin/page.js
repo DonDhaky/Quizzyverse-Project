@@ -12,12 +12,29 @@ const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [userToUpdate, setUserToUpdate] = useState([]);
 
-    useEffect(() => {
-        if (status === 'loading') return; // Do nothing while loading
-        if (!session || !session.user.is_admin) {
-            router.push('/login'); // Redirect if not authenticated or not admin
-        }
-    }, [session, status, router]);
+    //type: text|image response_type: text|mcq
+    const [form, setForm] = useState({
+        quiz_folder: 'New_Quiz',
+        quiz_title: 'Quiz - new Quiz',
+        question: 'What is...',
+        question_number: 1,
+        total_number: 10,
+        type: 'text',
+        api_path: 'https://',
+        response_obj: 'data.results',
+        imageUrl: 'https://',
+        imageAlt: 'Loading...',
+        clue_activated: false,
+        show_clue: false,
+        clue: 'ClueQustion1,ClueQuestion2,...',
+        clue_price: 1,
+        response_type: 'text',
+        xpPerGoodAnswer: 2,
+        xpCostPerClue: 1,
+        rerender_hack: 0
+    }
+)
+    const [content, setContent] = useState(" ")
 
     const handleUserInputChange = (event, index, field) => {
         const newUserToUpdate = [...userToUpdate]
@@ -35,6 +52,16 @@ const AdminPanel = () => {
 //            getUsers();
 //        }
 //    }, [session]);
+
+    useEffect(() => {
+        if (status === 'loading') return; // Do nothing while loading
+        if (!session || !session.user.is_admin) {
+            router.push('/login'); // Redirect if not authenticated or not admin
+            return
+        }
+        getUsers()
+    }, [session, status, router]);
+
     const getUsers = async (requestedUsers = 'all') => {
         try {
             const response = await fetch(`/api/users?requestedUsers=${requestedUsers}`, {
@@ -94,30 +121,6 @@ const AdminPanel = () => {
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    //type: text|image response_type: text|mcq
-    const [form, setForm] = useState({
-        quiz_folder: 'New_Quiz',
-        quiz_title: 'Quiz - new Quiz',
-        question: 'What is...',
-        question_number: 1,
-        total_number: 10,
-        type: 'text',
-        api_path: 'https://',
-        response_obj: '',
-        imageUrl: 'https://',
-        imageAlt: 'Loading...',
-        clue_activated: false,
-        show_clue: false,
-        clue: 'ClueQustion1,ClueQuestion2,...',
-        clue_price: 1,
-        response_type: 'text',
-        xpPerGoodAnswer: 2,
-        xpCostPerClue: 1,
-        rerender_hack: 0
-    })
-
-    const [content, setContent] = useState(" ")
 
     /*
         const handleUserInputChange = (event, index, field) => {
@@ -199,10 +202,13 @@ const AdminPanel = () => {
 
     }
 
+    /*
     useEffect(() => {
         getUsers()
         console.log(form.rerender_hack)
     }, [form, content])
+    */
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -588,7 +594,7 @@ const AdminPanel = () => {
                     <br/><br/>&nbsp;
                 {/*<button style={{width: "80px", backgroundColor: "DarkCyan"}} onClick={() => {handleQuizSubmit(form.quiz_folder, "settings.json", content)}}>&nbsp;Write file&nbsp;</button>*/}
             </div>
-        </div>
+        </>
     );
 };
 
