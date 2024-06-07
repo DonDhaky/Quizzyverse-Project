@@ -40,13 +40,13 @@ export default function Home() {
       <NavBar/>
       <section className="flex flex-col justify-center items-center mt-10">
         <Link href='/Lolverse' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
-          Start Quiz
+          Start Champions Quiz
         </Link>
         <Link href='/quizz-flag' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
-          Start Quiz Flag
+          Start Flags Quiz
         </Link>
         <Link href='/quizz-cocktail' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
-          Start Quiz Cocktail
+          Start Cocktails Quiz
         </Link>
         {customQuizList.map((quiz, index) => (
           <button key={index} className="bg-violet-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5" onClick={(event) => handleQuiz(event)}>{customQuizList[index].replaceAll('_', ' ')}</button>
