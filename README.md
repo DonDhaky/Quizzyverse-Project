@@ -38,9 +38,9 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">Welcome to Quizzyverse! 🎉</a>
+      <a href="#about-the-project">Welcome to Quizzyverse!</a>
       <ul>
-        <li><a href="#built-with">Built With 🛠️</a></li>
+        <li><a href="#built-with">Built With</a></li>
         <li><a href="#api">API</a></li>
       </ul>
     </li>
@@ -57,7 +57,7 @@
 </details>
 
 
-## Welcome to Quizzyverse! 🎉
+## Welcome to Quizzyverse!
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
@@ -67,7 +67,7 @@ As part of our final project for the Coding Academy, we need to complete a proje
 
 
 <!-- Built With -->
-### Built With 🛠️
+### Built With
 
 Here the list any major frameworks/libraries used to bootstrap our project.
 
