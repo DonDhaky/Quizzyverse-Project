@@ -247,7 +247,7 @@ The roadmap outlines the planned features and improvements for Quizzyverse. This
 - Clémence Kieu
 
 ### Project Objective
-The goal of this project is to use all the tools learned during the course and apply them in a single site, Quizzyverse. The site should allow users to select a quiz of their choice, play it, and receive a score at the end. A ranking system is also planned. The major feature of this site is the independent management of each quiz. The team aims to have 4 quizzes available on the site.
+The goal of this project is to use all the tools learned during the course and apply them in a single site, Quizzyverse. The site should allow users to select a quiz of their choice, play it, and receive a score at the end. A ranking system is also planned. The major feature of this site is the independent management of each quiz. The team aims to have at least 4 quizzes available on the site.
 
 ### Specifics
 - Limit of 4 quizzes per day, resetting at midnight.
