@@ -2,11 +2,8 @@ import {NextResponse} from "next/server"
 
 import mysql from 'mysql2/promise'
 const pool = mysql.createPool({host: process.env.MYSQL_HOST, user: process.env.MYSQL_USER, password: process.env.MYSQL_PASSWORD, database: process.env.MYSQL_DATABASE, waitForConnections: true})
-<<<<<<< HEAD
 import bcrypt from "bcrypt";
-=======
-import bcrypt from 'bcrypt'
->>>>>>> dev
+
 
 //////////////////////
 // ===> Get user list
@@ -51,12 +48,8 @@ export async function POST(request, context) { //in TS: POST(request: Request)
     console.log("\n\n\n\n\n");
     const hashedPassword = await bcrypt.hash(data.password, 10)
     try {
-<<<<<<< HEAD
-        const sql = 'INSERT INTO users (id, is_admin, username, country, email, password, xp, is_premium, daily_count) VALUES (NULL, 0, ?, ?, ?, ?, 0, 0, 0);'
-    //    const sql = 'INSERT INTO users (id, is_admin, username, country, email, password, xp, is_premium, daily_count, renewed_at) VALUES (NULL, 0, ?, ?, ?, ?, 0, 0, 0, NULL);'
-=======
+
         const sql = 'INSERT INTO users (id, is_admin, username, country, email, password, xp, is_premium, daily_count, renewed_at) VALUES (NULL, 0, ?, ?, ?, ?, 0, 0, 0, NULL);'
->>>>>>> dev
         const mySqlResponse = await pool.query(sql, [data.username, data.country, data.email, hashedPassword])
         console.log("\n\n\n\n\n")
         console.log(mySqlResponse);
