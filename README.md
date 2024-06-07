@@ -325,7 +325,7 @@ The roadmap outlines the planned features and improvements for Quizzyverse. This
 ### Team
 - Alexandre Lepinard 🐱
 - Erick Thonon 💩
-- Mayeul Desbazeille 🦧
+- Mayeul Desbazeille 🕺🏼
 - Clémence Kieu 🥕
 
 ### Project Objective
