@@ -69,7 +69,7 @@ As part of our final project for the Coding Academy, we need to complete a proje
 <!-- Built With -->
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+Here the list any major frameworks/libraries used to bootstrap our project.
 
 * [![Next][Next.js]][Next-url]
 * [![NextAuth][NextAuth]][NextAuth-url]
@@ -122,10 +122,11 @@ Here an example of how we did it.
    - Description: This endpoint returns a list of cocktails that start with the letter 'a'.
 
 
-### Usage
+### Backend Implementation
 
+Here's how we integrated the API into our backend to fetch cocktail data and randomize it:
 - We use the `search.php?f=a` endpoint to fetch a predefined set of cocktails that are used in our quizzes.
-- The `random.php` endpoint is used to fetch a random cocktail to add an element of surprise and variety to the quiz questions.
+- From the fetched list of cocktails, we select a random cocktail using the getRandomCocktail function.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
