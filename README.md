@@ -112,16 +112,19 @@ Make sure your node & npm version is updated, if not update it:
     ```sh
     git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard.git`
     ```
+    
   . Navigate to the project directory:
     ```sh
     cd C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard
     ```
+    
 2. **Set up the MySQL database**
 
   . Open your MySQL client and create a new database called quizzyverse:
     ```sql
      CREATE DATABASE Quizzyverse;
     ```
+    
   . Import the database schema from the database/schema.sql file:
     ```sh
     mysql -u your_username -p quizzyverse < database/schema.sql
