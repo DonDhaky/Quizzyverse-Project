@@ -12,12 +12,28 @@ const AdminPanel = () => {
     const [users, setUsers] = useState([]);
     const [userToUpdate, setUserToUpdate] = useState([]);
 
-    useEffect(() => {
-        if (status === 'loading') return; // Do nothing while loading
-        if (!session || !session.user.is_admin) {
-            router.push('/login'); // Redirect if not authenticated or not admin
-        }
-    }, [session, status, router]);
+    //type: text|image response_type: text|mcq
+    const [form, setForm] = useState({
+        quiz_folder: 'New_Quiz',
+        quiz_title: 'Quiz - new Quiz',
+        question: 'What is...',
+        question_number: 1,
+        total_number: 10,
+        type: 'text',
+        api_path: 'https://',
+        response_obj: 'data.results',
+        imageUrl: 'https://',
+        imageAlt: 'Loading...',
+        clue_activated: false,
+        show_clue: false,
+        clue: 'ClueQustion1,ClueQuestion2,...',
+        xpCostPerClue: 1,
+        response_type: 'mcq',
+        xpPerGoodAnswer: 2,
+        rerender_hack: 0
+    }
+)
+    const [content, setContent] = useState(" ")
 
     const handleUserInputChange = (event, index, field) => {
         const newUserToUpdate = [...userToUpdate]
@@ -35,6 +51,16 @@ const AdminPanel = () => {
 //            getUsers();
 //        }
 //    }, [session]);
+
+    useEffect(() => {
+        if (status === 'loading') return; // Do nothing while loading
+        if (!session || !session.user.is_admin) {
+            router.push('/login'); // Redirect if not authenticated or not admin
+            return
+        }
+        getUsers()
+    }, [session, status, router]);
+
     const getUsers = async (requestedUsers = 'all') => {
         try {
             const response = await fetch(`/api/users?requestedUsers=${requestedUsers}`, {
@@ -95,30 +121,6 @@ const AdminPanel = () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    //type: text|image response_type: text|mcq
-    const [form, setForm] = useState({
-        quiz_folder: 'New_Quiz',
-        quiz_title: 'Quiz - new Quiz',
-        question: 'What is...',
-        question_number: 1,
-        total_number: 10,
-        type: 'text',
-        api_path: 'https://',
-        response_obj: '',
-        imageUrl: 'https://',
-        imageAlt: 'Loading...',
-        clue_activated: false,
-        show_clue: false,
-        clue: 'ClueQustion1,ClueQuestion2,...',
-        clue_price: 1,
-        response_type: 'text',
-        xpPerGoodAnswer: 2,
-        xpCostPerClue: 1,
-        rerender_hack: 0
-    })
-
-    const [content, setContent] = useState(" ")
-
     /*
         const handleUserInputChange = (event, index, field) => {
         const newUserToUpdate = [...userToUpdate]
@@ -144,18 +146,12 @@ const AdminPanel = () => {
         console.log(form.rerender_hack)
     }
 */
-/*
-    const handleQuizSubmit = () => {
-            const newContent = `{\n\t"quiz_folder":"${form.quiz_folder}",\n\t"quiz_title": "${form.quiz_title}",\n\t"question": "${form.question}",\n\t"question_number": ${form.question_number},\n\t"total_number": ${form.total_number},\n\t"type": "${form.type}",\n\t"api_path": "${form.api_path}",\n\t"response_obj": "${form.response_obj}",\n\t"imageUrl": "${form.imageUrl}",\n\t"imageAlt": "${form.imageAlt}",\n\t"clue_activated": ${form.clue_activated},\n\t"show_clue": ${form.show_clue},\n\t"clue": "${form.clue}",\n\t"clue_price": ${form.clue_price},\n\t"response_type": "${form.response_type}",\n\t"xpPerGoodAnswer": ${form.xpPerGoodAnswer},\n\t"xpCostPerClue": ${form.xpCostPerClue}\n}`
 
-            setContent(newContent)
-    }
-*/
     //////////////////////////////////
     // Write file
     const writeFile = async(quizFolder, fileName) => {
 
-        const newContent = `{\n\t"quiz_folder":"${form.quiz_folder}",\n\t"quiz_title": "${form.quiz_title}",\n\t"question": "${form.question}",\n\t"question_number": ${form.question_number},\n\t"total_number": ${form.total_number},\n\t"type": "${form.type}",\n\t"api_path": "${form.api_path}",\n\t"response_obj": "${form.response_obj}",\n\t"imageUrl": "${form.imageUrl}",\n\t"imageAlt": "${form.imageAlt}",\n\t"clue_activated": ${form.clue_activated},\n\t"show_clue": ${form.show_clue},\n\t"clue": "${form.clue}",\n\t"clue_price": ${form.clue_price},\n\t"response_type": "${form.response_type}",\n\t"xpPerGoodAnswer": ${form.xpPerGoodAnswer},\n\t"xpCostPerClue": ${form.xpCostPerClue}\n}`
+        const newContent = `{\n\t"quiz_folder":"${form.quiz_folder}",\n\t"quiz_title": "${form.quiz_title}",\n\t"question": "${form.question}",\n\t"question_number": ${form.question_number},\n\t"total_number": ${form.total_number},\n\t"type": "${form.type}",\n\t"api_path": "${form.api_path}",\n\t"response_obj": "${form.response_obj}",\n\t"imageUrl": "${form.imageUrl}",\n\t"imageAlt": "${form.imageAlt}",\n\t"clue_activated": ${form.clue_activated},\n\t"show_clue": ${form.show_clue},\n\t"clue": "${form.clue}",\n\t"xpCostPerClue": ${form.xpCostPerClue},\n\t"response_type": "${form.response_type}",\n\t"xpPerGoodAnswer": ${form.xpPerGoodAnswer}\n}`
 
         setContent(newContent)
 
@@ -199,10 +195,13 @@ const AdminPanel = () => {
 
     }
 
+    /*
     useEffect(() => {
         getUsers()
         console.log(form.rerender_hack)
     }, [form, content])
+    */
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

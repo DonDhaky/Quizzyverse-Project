@@ -1,0 +1,18 @@
+{
+	"quiz_folder":"Quiz_Myths",
+	"quiz_title": "Quiz Mythology",
+	"question": "Choose the correct answer:",
+	"question_number": 1,
+	"total_number": 10,
+	"type": "text",
+	"api_path": "https://opentdb.com/api.php?amount=10&category=20&difficulty=medium&type=multiple",
+	"response_obj": "data.results",
+	"imageUrl": "https://i.ibb.co/2SJH5km/rubens-phaeton-1.jpg",
+	"imageAlt": "Rubens - Phaeton",
+	"clue_activated": false,
+	"show_clue": false,
+	"clue": "ClueQustion1,ClueQuestion2,...",
+	"xpCostPerClue": 1,
+	"response_type": "mcq",
+	"xpPerGoodAnswer": 2
+}
