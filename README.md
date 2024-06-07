@@ -92,6 +92,7 @@ This section should list any major frameworks/libraries used to bootstrap your p
 For this project, we used different free API such as :
 
 . Champion Quiz
+
 To get all [the champions](https://ddragon.leagueoflegends.com/cdn/14.11.1/data/en_US/champion.json)
 
 To get detail information of [the Champion selection](https://ddragon.leagueoflegends.com/cdn/14.11.1/data/en_US/champion/Aatrox.json)
@@ -100,16 +101,19 @@ To get [the pictures](https://ddragon.leagueoflegends.com/cdn/14.11.1/img/passiv
 
 
 . Flags Quiz
+
 To get [the flag](http://restcountries.com/v3.1/all)
 
 
 . Capitals Quiz
+
 To get [the quiz custom](https://opentdb.com/api_config.php)
 
 To get [the capital](https://api.worldbank.org/ )
 
 
 . Cocktail Quiz
+
 To get [The Cocktail DB](https://www.thecocktaildb.com/api.php)
 
 ### API Endpoints
