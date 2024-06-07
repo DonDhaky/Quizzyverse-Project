@@ -60,7 +60,6 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 As part of our final project for the Coding Academy, we need to complete a project using technologies of our choice over the course of 3 weeks. The project will be carried out in a group of 4, and there will only be one group.
 
