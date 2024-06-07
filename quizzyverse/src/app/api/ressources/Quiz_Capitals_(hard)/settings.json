@@ -7,13 +7,12 @@
     "type": "text",
     "api_path": "https://api.allorigins.win/get?url=https%3A%2F%2Fapi.worldbank.org%2Fv2%2Fcountry%2F%3Fformat%3Djson%26per_page%3D296",
     "response_obj": "data.contents",
-    "imageUrl": "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.pexels.com%2Fsearch%2Fhong%2520kong%2520night%2F&psig=AOvVaw1nXhadsiS_2U-ZTmON_E6c&ust=1717771584232000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNCvqPqbx4YDFQAAAAAdAAAAABAK",
+    "imageUrl": "https://i.ibb.co/64f7T67/pexels-apasaric-2481630.jpg",
     "imageAlt": "",
     "clue_activated": true,
     "show_clue": false,
     "clue": "...",
-    "clue_price": 1,
+    "xpCostPerClue": 2,
     "response_type": "text",
-    "xpPerGoodAnswer": 4,
-    "xpCostPerClue": 2
+    "xpPerGoodAnswer": 4
 }

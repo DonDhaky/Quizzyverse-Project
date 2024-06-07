@@ -12,8 +12,7 @@
     "clue_activated": true,
     "show_clue": false,
     "clue": "...",
-    "clue_price": 1,
+    "xpCostPerClue": 1,
     "response_type": "text",
-    "xpPerGoodAnswer": 2,
-    "xpCostPerClue": 1
+    "xpPerGoodAnswer": 2
 }
