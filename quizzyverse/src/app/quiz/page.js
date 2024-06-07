@@ -285,6 +285,7 @@ const QuizContainer = () => {
 
   return (
     <>
+
     <div style={{ minHeight: "100vh", backgroundColor: "#070707", backgroundImage: `url('${quizSettings.imageUrl}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center" }} >
 
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>

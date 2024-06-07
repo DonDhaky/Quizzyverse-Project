@@ -33,6 +33,9 @@ export default function NavBar() {
             <Link className="text-white font-bold" href="/profile">
               Profile
             </Link>
+            <Link className="text-white font-bold" href="/premium-sub">
+              Get Premium
+            </Link>
             {is_admin && (
               <Link className="text-white font-bold" href="/client/admin">
                 Admin
