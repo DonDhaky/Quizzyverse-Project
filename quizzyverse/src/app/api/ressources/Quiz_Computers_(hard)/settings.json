@@ -1,0 +1,18 @@
+{
+	"quiz_folder":"Quiz_Computers_(hard)",
+	"quiz_title": "Quiz - Computers (hard)",
+	"question": "Choose the right answer:",
+	"question_number": 1,
+	"total_number": 10,
+	"type": "text",
+	"api_path": "https://opentdb.com/api.php?amount=10&category=18&difficulty=hard&type=multiple",
+	"response_obj": "data.results",
+	"imageUrl": "https://i.ibb.co/KhYJwfL/best-computer-keyboard-colorful-desktop-background-wallpaper.jpg",
+	"imageAlt": "Keyboard...",
+	"clue_activated": false,
+	"show_clue": false,
+	"clue": "ClueQustion1,ClueQuestion2,...",
+	"xpCostPerClue": 1,
+	"response_type": "mcq",
+	"xpPerGoodAnswer": 2
+}
