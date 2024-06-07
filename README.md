@@ -25,7 +25,7 @@
     <img src="/quizzyverse/public/Epitech.png" alt="Logo" height="auto" width="auto">
   </a>
 
-  <h1 align="center">Quizzyverse</h1>
+  <h1 align="center">Quizzyverse 🎉</h1>
 
   <h2 align="center">
     Welcome to our final Coding Academy project: 'Quizzyverse'
@@ -38,7 +38,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">Welcome to Quizzyverse!</a>
+      <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#api">API</a></li>
@@ -57,7 +57,8 @@
 </details>
 
 
-## Welcome to Quizzyverse!
+<!-- ABOUT THE PROJECT -->
+## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
