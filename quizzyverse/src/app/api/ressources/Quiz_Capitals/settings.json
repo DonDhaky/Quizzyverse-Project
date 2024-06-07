@@ -7,13 +7,12 @@
     "type": "text",
     "api_path": "https://api.allorigins.win/get?url=https://api.worldbank.org/v2/country/?format=json&per_page=296",
     "response_obj": "data.contents",
-    "imageUrl": "https://m.media-amazon.com/images/I/71CsUmAR-GL._SL1500_.jpg",
+    "imageUrl": "https://i.pinimg.com/originals/cc/6c/d7/cc6cd7cbccb534ad3dee7df16ca2161e.jpg",
     "imageAlt": "",
     "clue_activated": true,
     "show_clue": false,
     "clue": "...",
-    "clue_price": 1,
+    "xpCostPerClue": 1,
     "response_type": "text",
-    "xpPerGoodAnswer": 2,
-    "xpCostPerClue": 1
+    "xpPerGoodAnswer": 2
 }
