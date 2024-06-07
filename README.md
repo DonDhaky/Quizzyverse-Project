@@ -92,7 +92,7 @@ Here the list any major frameworks/libraries used to bootstrap our project.
 
 For this project, we used different free API such as :
 
-- Champion Quiz
+- Champion Quiz 🏅
   
   To get all [the champions](https://ddragon.leagueoflegends.com/cdn/14.11.1/data/en_US/champion.json)
   
@@ -100,17 +100,17 @@ For this project, we used different free API such as :
   
   To get [the pictures](https://ddragon.leagueoflegends.com/cdn/14.11.1/img/passive/Anivia_P.png) 
 
-- Flags Quiz
+- Flags Quiz 🏴‍☠️
   
   To get [the flag](http://restcountries.com/v3.1/all)
 
-- Capitals Quiz
+- Capitals Quiz 🚩
   
   To get [the quiz custom](https://opentdb.com/api_config.php)
   
   To get [the capital](https://api.worldbank.org/ )
 
-- Cocktail Quiz
+- Cocktail Quiz 🍹
   
   To get [The Cocktail DB](https://www.thecocktaildb.com/api.php)
 
@@ -323,10 +323,10 @@ The roadmap outlines the planned features and improvements for Quizzyverse. This
 
 
 ### Team
-- Alexandre Lepinard
-- Erick Thonon
-- Mayeul Desbazeille
-- Clémence Kieu
+- Alexandre Lepinard 🐱
+- Erick Thonon 💩
+- Mayeul Desbazeille 🦧
+- Clémence Kieu 🥕
 
 ### Project Objective
 The goal of this project is to use all the tools learned during the course and apply them in a single site, Quizzyverse. The site should allow users to select a quiz of their choice, play it, and receive a score at the end. A ranking system is also planned. The major feature of this site is the independent management of each quiz. The team aims to have at least 4 quizzes available on the site.
