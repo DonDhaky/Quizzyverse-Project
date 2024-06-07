@@ -41,6 +41,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#api">API</a></li>
       </ul>
     </li>
     <li>
@@ -82,6 +83,30 @@ This section should list any major frameworks/libraries used to bootstrap your p
 * [![ESLint][ESLint]][ESLint-url]
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- API -->
+## API
+
+For this project, we used different free API, for exemple from [The Cocktail DB](https://www.thecocktaildb.com/api.php) to fetch quiz data.
+
+### API Endpoints
+
+1. **Search Cocktails by First Letter:**
+   - URL: `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a`
+   - Description: This endpoint returns a list of cocktails that start with the letter 'a'.
+
+2. **Random Cocktail:**
+   - URL: `https://www.thecocktaildb.com/api/json/v1/1/random.php`
+   - Description: This endpoint returns a random cocktail.
+
+### Usage
+
+- We use the `search.php?f=a` endpoint to fetch a predefined set of cocktails that are used in our quizzes.
+- The `random.php` endpoint is used to fetch a random cocktail to add an element of surprise and variety to the quiz questions.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -168,13 +193,61 @@ Make sure your node & npm version is updated, if not update it:
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Examples of how to use Quizzyverse:
+Welcome to Quizzyverse! Follow these steps to start playing quizzes and enjoy learning while having fun.
 
-Login to get stated or register to get an account to play!
-Select a quiz, answer the questions, and get a score.
-Check the leaderboard to see your rank and XP.
-Create your own quizzes if you are a premium user or just to play more.
-_For more examples, please refer to the [Documentation](https://example.com)_
+**Getting Started**
+
+  1. Login/Register:
+    .If you already have an account, click on the "Login" button and enter your credentials.
+    .If you are new, click on the "Register" button and create a new account using your email and password and complet the form.
+  
+  2. Profile Setup:
+     After logging in, you can set up your profile by adding a username and a country.
+  
+**Playing Quizzes**
+
+  1. Select a Quiz:
+      On the homepage, you will see a variety of quizzes. Click on a quiz that interests you.
+  2. Start the Quiz:
+     Click on the "Start Quiz" button to begin.
+  3. Answer Questions:
+     Each quiz consists of multiple questions. Read each question carefully and enter the answer you believe is correct in the input.
+     After typing the answer, click "Answer" or type enter to proceed to the next question.
+  4. Submit Quiz:
+     Once you have answered all questions, click on the "Submit Quiz" button to finish.
+     
+**Scoring and Ranking**
+
+  1. View Score:
+     After submitting the quiz, your score will be displayed in a pop up page. The score is based on the number of correct answers.
+  2. Earn XP:
+     For each quiz completed, you will earn 50 XP points if all answers are correct. XP helps you rank up in the leaderboard.
+  3. Check Leaderboard:
+     Visit the "Leaderboard" section to see your rank compared to other players. Higher XP means a higher rank! You can also check your XP on the left corner of the navbar in the home page.
+     
+**Creating Quizzes**
+
+  1. Access Quiz Creator:
+     If you want to create your own quiz, go to the "Create Quiz" section from the admin on the navbar.
+  2. Add Questions:
+     Fill in the quiz details such as title, description, and add your questions with a picture if disired.
+  3. Publish Quiz:
+     Once you have added all questions, click on "Publish" to make your quiz available to other players.
+     
+**Premium Features**
+
+  1. Daily Quiz Limit:
+     Free users can play up to 4 quizzes per day. The limit resets at midnight.
+  2. Upgrade to Premium:
+     For unlimited quiz attempts, consider upgrading to a premium account. Click on "Upgrade to Premium" and follow the payment process via
+     Stripe.
+  3. Enjoy Unlimited Access:
+     Premium users can enjoy unlimited quizzes and additional features without any restrictions.
+     Additional Tips
+  4. Responsive Design:
+     Quizzyverse is fully responsive, so you can play quizzes on any device, whether it's a desktop, tablet, or smartphone.
+  5. Stay Updated:
+     Follow us to stay updated with new quizzes and features For more information or support, refer to the Documentation or contact our support        team.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
