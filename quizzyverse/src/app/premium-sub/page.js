@@ -63,23 +63,36 @@ export default function PaymentPage() {
     }
   };
 
-    return (
+  const handleCombinedClick = () => {
+    putPremium();
+
+    const stripeButton = document.querySelector('stripe-buy-button');
+    if (stripeButton) {
+      stripeButton.click();
+    }
+  };
+
+  return (
     <div className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
-            <NavBar />
-        <div>
-          <script async
-                  src="https://js.stripe.com/v3/buy-button.js">
-          </script>
-          
-           <stripe-buy-button
-             buy-button-id="buy_btn_1PNtj1C4cFi9tQG7kG9yTJEh"
-             publishable-key="pk_test_51PNtWxC4cFi9tQG7OGKsW5psT3Sa76IFgvYCTW2YttovZi2wI3ITjnRwSfW7TsKkQTepqVbbdCvI0pKtHBgx6Ltf00uifcqBdI"
-           >
-           </stripe-buy-button>
-           <button onClick={putPremium}>Get Premium</button>
+      <NavBar />
+      <div> You can subscribe to Premium to play unlimited just right here !</div>
+      <div className="relative mt-8">
+        <script async src="https://js.stripe.com/v3/buy-button.js"></script>
+
+        <div className="absolute inset-0 flex items-center justify-center" onClick={handleCombinedClick}>
+          <stripe-buy-button
+            buy-button-id="buy_btn_1PNtj1C4cFi9tQG7kG9yTJEh"
+            publishable-key="pk_test_51PNtWxC4cFi9tQG7OGKsW5psT3Sa76IFgvYCTW2YttovZi2wI3ITjnRwSfW7TsKkQTepqVbbdCvI0pKtHBgx6Ltf00uifcqBdI"
+          ></stripe-buy-button>
         </div>
 
+        <div className="absolute inset-0 flex items-center justify-center">
+          <button className="bg-transparent opacity-0 text-blue-400 p-2 rounded" onClick={putPremium}>
+            Premium
+          </button>
+        </div>
+      </div>
     </div>
-    )
+  );
 
   }

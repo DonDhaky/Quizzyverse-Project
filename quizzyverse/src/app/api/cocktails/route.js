@@ -9,7 +9,6 @@ const fetchAllCocktails = async () => {
   try {
       const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a');
       const data = await response.json();
-      console.log(data.drinks);
       allCocktails = data.drinks;
   } catch (error) {
       console.error({ error: 'Failed to fetch data' });

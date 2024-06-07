@@ -4,9 +4,10 @@ import 'tailwindcss/tailwind.css';
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
-
+import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt";
+import { addXp } from "../api/users/xp/addXp";
 import NavBar from '../components/Navbar';
+
 // Thème du quiz
 const quizzFlag = "Trouve le pays ou la région qui correspond au drapeau !";
 
@@ -74,27 +75,6 @@ const Page = () => {
 
     }, [questionNumber, router, session]);
 
-    const updateXpInDb = async (newXp) => { // pour ajouter l'xp à mon user dans la DB en cas de bonne réponse à la fin
-        if (!session) return;
-
-        try {
-            const response = await fetch('/api/users/xp-flags', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ xp: newXp }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to update XP');
-            }
-
-            const data = await response.json();
-            console.log(data.message);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     const validateAnswer = async() => { // bouton de validation de la réponse et affichage du pop-up
         if (!await checkUserDailyCount(email)) // placer le user actuel avec "UseSession"
         {return};
@@ -107,7 +87,10 @@ const Page = () => {
 
             if (questionNumber >= 5) {
                 message = 'Bonne réponse ! Vous avez gagné ' + newXp + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
-                updateXpInDb(newXp); // ajout de l'xp à la db à la fin du quizz
+                let score = newXp;
+                if (score > 0){
+                    addXp(email, score)
+              }  
             } else {
                 message = 'Bonne réponse ! + 10 xp !';
             }
@@ -117,7 +100,10 @@ const Page = () => {
             message = `Mauvaise réponse, c'était ${fetchedAnswer} !`;
             if (questionNumber >= 5) {
                 message += ' Vous avez gagné ' + xpWon + ' xp ! Revenez demain ou passez premium pour jouer en illimité !';
-                updateXpInDb(xpWon); // ajout de l'xp à la db à la fin du quizz
+                let score = xpWon;
+                if (score > 0){
+                    addXp(email, score)
+              }
             }
         }
         setResultMessage(message);
@@ -143,25 +129,38 @@ const Page = () => {
     return (
         <div className="flex items-center justify-center mt-10 flex-col">
             <NavBar/>
-            <h6 className="mt-10">{quizzFlag}</h6>
+            <h6 className="mt-5">{quizzFlag}</h6>
             <div className="container mx-auto p-4">
                 <div className="max-w-sm mx-auto bg-white shadow-md rounded-md overflow-hidden">
                     <img src={fetchedImage} alt="Quiz Image" className="w-full h-auto max-w-full max-h-full object-contain" />
                     <div className="text-xl text-center text-black m-3">Question {questionNumber}</div>
                 </div>
             </div>
+            {showTip && <div className="mt-2">{fetchedTip}</div>}
             <input required
+                placeholder='Votre réponse'
                 name="answer"
-                className="text-xl text-center text-black mt-5 w-80 h-10"
+                className="text-xl text-center text-black mt-5 w-80 h-10 border border-black rounded-md"
                 type="text"
                 value={userAnswer}
                 onChange={e => setUserAnswer(e.target.value)}
             />
             <div className="mt-4">
-                <button type="button" className="mr-20" onClick={handleShowTip}>Indice</button>
-                <button type="button" className="ml-20" onClick={validateAnswer}>Valider</button>
+            <button
+  type="button"
+  className="mr-20 mb-20 bg-blue-600 text-white font-bold py-2 px-4 rounded mt-3"
+  onClick={handleShowTip}
+>
+  Indice
+</button>
+<button
+  type="button"
+  className="ml-20 mb-20 bg-blue-600 text-white font-bold py-2 px-4 rounded mt-3"
+  onClick={validateAnswer}
+>
+  Valider
+</button>
             </div>
-            {showTip && <div className="mt-8">{fetchedTip}</div>}
             {showResultPopup && (
                 <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-75">
                     <div className="bg-white p-6 rounded shadow-md text-center">
