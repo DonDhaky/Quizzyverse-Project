@@ -38,7 +38,7 @@
   <summary>Table of Contents</summary>
   <ol>
     <li>
-      <a href="#about-the-project">About The Project</a>
+      <a href="#about-the-project">Welcome to Quizzyverse!</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#api">API</a></li>
@@ -57,7 +57,7 @@
 </details>
 
 
-## About The Project
+## Welcome to Quizzyverse! 🎉
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
@@ -67,7 +67,7 @@ As part of our final project for the Coding Academy, we need to complete a proje
 
 
 <!-- Built With -->
-### Built With
+### Built With 🛠️
 
 Here the list any major frameworks/libraries used to bootstrap our project.
 
@@ -319,22 +319,7 @@ The roadmap outlines the planned features and improvements for Quizzyverse. This
 - [x] **Documentation**
   - Document all API endpoints and their usage
   - Create user guides and developer setup instructions
-- [ ] **Deployment**
-  - Deploy the application to a cloud platform (e.g., Heroku, AWS, Vercel)
-  - Set up CI/CD pipelines for automated testing and deployment
 
-### Phase 4: Future Enhancements
-- [ ] **Multilingual Support**
-  - Add support for multiple languages to broaden the user base
-- [ ] **Social Features**
-  - Implement social sharing for quiz results
-  - Add friend lists and user interactions
-- [ ] **Advanced Analytics**
-  - Provide detailed analytics and reports for users and quiz creators
-- [ ] **Mobile Application**
-  - Develop a mobile version of Quizzyverse for iOS and Android
-- [ ] **Gamification**
-  - Introduce badges, achievements, and other gamification elements
 
 ### Team
 - Alexandre Lepinard
