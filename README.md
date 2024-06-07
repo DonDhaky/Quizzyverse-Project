@@ -109,26 +109,26 @@ Make sure your node & npm version is updated, if not update it:
   Check this doc if you don't know to do it : <a href='https://docs.github.com/en/repositories/creating-and-managing-      repositories/cloning-a-repository'>**Doc**</a>
 
   . In the terminal on your IDE:
-    ```sh
-    git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard.git`
-    ```
+  ```sh
+  git clone `git@github.com:EpitechCodingAcademyPromo2024/C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard.git`
+  ```
     
   . Navigate to the project directory:
-    ```sh
-    cd C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard
-    ```
+  ```sh
+  cd C-COD-260-PAR-2-2-ecp-marc-alexandre.lepinard
+  ```
     
 2. **Set up the MySQL database**
 
   . Open your MySQL client and create a new database called quizzyverse:
-    ```sql
+  ```sql
      CREATE DATABASE Quizzyverse;
-    ```
+  ```
     
   . Import the database schema from the database/schema.sql file:
-    ```sh
+  ```sh
     mysql -u your_username -p quizzyverse < database/schema.sql
-    ```
+  ```
 
 3. **Configure environment variables**
    . Create a .env file in the backend directory and add the following variables:
