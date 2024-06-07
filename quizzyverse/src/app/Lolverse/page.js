@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import NavBar from "../components/Navbar";
-// import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt";
+import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt";
 import { useRouter } from "next/navigation";
 import { addXp } from '../api/users/xp/addXp';
 import { useSession } from "next-auth/react";
@@ -20,7 +20,8 @@ export default function Home() {
   const [hintVisible, setHintVisible] = useState(false); // Controle la visibilite de l'indice
   const [feedback, setFeedback] = useState(""); // Dit si c'est bon ou non avec un ternary
   const [questionCount, setQuestionCount] = useState(0);
-  const maxQuestions = 5;
+  const [email, setEmail] = useState('');
+  const maxQuestions = 1;
 
   // Ici on fetch un random champion, le random est gere dans le fichier route.js dans la route ci-dessous
   const fetchChampionData = async () => {
@@ -45,9 +46,12 @@ export default function Home() {
 
   // le useEffect sert a excecute les fetch seulement quand ils sont prets pas avant, donc la on fetch le random champ grace au back et tous les champions egalement
   useEffect(() => {
+    if (session) {
+      setEmail(session.user.email);
+    };
     fetchChampionData();
     fetchAllChampions();
-  }, []);
+  }, [session]);
 
   useEffect(() => {
     redirectAfter();
@@ -56,7 +60,9 @@ export default function Home() {
   // Ici je check si le guess du user on bon et correspond bien ou meme name dans championData.name
   // c'est pas case sensitive grace a lowercase
   // on met un timeout pour le delay du nouveau pour ne pas refetch d'un coup histoire que ce soit propre
-  const handleGuess = () => {
+  const handleGuess = async() => {
+    if (!await checkUserDailyCount(email))
+      {return};
     if (guess.toLowerCase() === championData.name.toLowerCase()) {
       setFeedback("Correct");
       addXp(session.user.email,10);
