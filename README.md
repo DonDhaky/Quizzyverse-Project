@@ -42,7 +42,7 @@
       <ul>
         <li><a href="#built-with">Built With</a></li>
         <li><a href="#api">API</a></li>
-<!--       </ul> -->
+      </ul>
     </li>
     <li>
       <a href="#getting-started">Getting Started</a>
@@ -89,17 +89,31 @@ This section should list any major frameworks/libraries used to bootstrap your p
 <!-- API -->
 ## API
 
-For this project, we used different free API, for exemple from [The Cocktail DB](https://www.thecocktaildb.com/api.php) to fetch quiz data.
+For this project, we used different free API such as :
+
+Champion Quiz
+To get all [the champions](https://ddragon.leagueoflegends.com/cdn/14.11.1/data/en_US/champion.json)
+To get detail information of [the Champion selection](https://ddragon.leagueoflegends.com/cdn/14.11.1/data/en_US/champion/Aatrox.json)
+To get [the pictures](https://ddragon.leagueoflegends.com/cdn/14.11.1/img/passive/Anivia_P.png) 
+
+Flags Quiz
+To get [the flag](restcountries.com/v3.1/all)
+
+Capitals Quiz
+To get [the quiz custom](https://opentdb.com/api_config.php)
+To get [the capital](https://api.worldbank.org/ )
+
+Cocktail Quiz
+To get [The Cocktail DB](https://www.thecocktaildb.com/api.php)
 
 ### API Endpoints
 
-1. **Search Cocktails by First Letter:**
+Here an example of how we did it.
+
+**Search Cocktails by First Letter:**
    - URL: `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a`
    - Description: This endpoint returns a list of cocktails that start with the letter 'a'.
 
-2. **Random Cocktail:**
-   - URL: `https://www.thecocktaildb.com/api/json/v1/1/random.php`
-   - Description: This endpoint returns a random cocktail.
 
 ### Usage
 
@@ -224,7 +238,7 @@ Welcome to Quizzyverse! Follow these steps to start playing quizzes and enjoy le
   2. Earn XP:
      For each quiz completed, you will earn 50 XP points if all answers are correct. XP helps you rank up in the leaderboard.
   3. Check Leaderboard:
-     Visit the "Leaderboard" section to see your rank compared to other players. Higher XP means a higher rank! You can also check your XP on the left corner of the navbar in the home page.
+     Visit the "Admin" section to see your rank compared to other players. Higher XP means a higher rank! You can also check              your XP on the left corner of the navbar in the home page.
      
 **Creating Quizzes**
 
@@ -240,7 +254,7 @@ Welcome to Quizzyverse! Follow these steps to start playing quizzes and enjoy le
   1. Daily Quiz Limit:
      Free users can play up to 4 quizzes per day. The limit resets at midnight.
   2. Upgrade to Premium:
-     For unlimited quiz attempts, consider upgrading to a premium account. Click on "Upgrade to Premium" and follow the payment process via
+     For unlimited quiz attempts, consider upgrading to a premium account. Click on "Upgrade to Premium" and follow the payment           process via
      Stripe.
   3. Enjoy Unlimited Access:
      Premium users can enjoy unlimited quizzes and additional features without any restrictions.
@@ -248,7 +262,7 @@ Welcome to Quizzyverse! Follow these steps to start playing quizzes and enjoy le
   4. Responsive Design:
      Quizzyverse is fully responsive, so you can play quizzes on any device, whether it's a desktop, tablet, or smartphone.
   5. Stay Updated:
-     Follow us to stay updated with new quizzes and features For more information or support, refer to the Documentation or contact our support        team.
+     Follow us to stay updated with new quizzes and features for more information or support, refer to the Documentation or contact       our support team.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
