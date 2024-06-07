@@ -16,14 +16,14 @@ const handleQuiz = (event) => {
 export default function Home() {
   
   const [customQuizList, setCustomQuizList] = useState([])
-  const [files, setFiles] = useState([]);
+  // const [files, setFiles] = useState([]);
   //const [background, setBackground] = useState('https://i.ibb.co/v1FsGWW/liquid-art-painting-texture-background-abstract-watercolor-paint-background-dark-blue-color-grunge-t.jpg')
   //const [background, setBackground] = useState('https://i.ibb.co/DKDs6pj/pastel-orange-hb1533cinpdw33lm.jpg')
   //const [background, setBackground] = useState('https://i.ibb.co/2ddjMjC/abstract-background-with-blue-yellow-and-orange-paint-in-water-with-ai-generated-free-photo.jpg')
   //const [background, setBackground] = useState('https://i.ibb.co/C9DGyym/1000-F-178852830-Dv5s-Yjrp4-Lur-PGKIrx1n-HYnoo-IEn-KJb-N.jpg')
   //const [background, setBackground] = useState('https://i.ibb.co/87p33jm/66228630-background-in-jackson-s-pollock-style-old-paint-on-the-wall-of-white-color-texture-bedraggl.jpg')
   //const [background, setBackground] = useState('https://i.ibb.co/Pm1VTcD/wp2190608.jpg')
-  const [background, setBackground] = useState('https://i.ibb.co/r2gzR2z/clean-clean-background-blur-green.jpg')
+  // const [background, setBackground] = useState('https://i.ibb.co/r2gzR2z/clean-clean-background-blur-green.jpg')
 
   useEffect(() => {
     const fetchDirectoryList = async () => {
@@ -43,9 +43,10 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-gray-100 flex flex-col items-center p-4" style={{ minHeight: "100vh", backgroundColor: "#070707", backgroundImage: `url(${background})`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center" }}>
+    <main className="min-h-screen bg-gray-100 flex flex-col items-center p-4">
       <NavBar/>
       <section className="flex flex-col justify-center items-center mt-10">
+      <div className="flex flex-col justify-center items-center mt-10 bg-slate-300 rounded-lg">
         <Link href='/Lolverse' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
           Start Champions Quiz
         </Link>
@@ -55,8 +56,9 @@ export default function Home() {
         <Link href='/quizz-cocktail' className="bg-blue-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5">
           Start Cocktails Quiz
         </Link>
+        </div>
         <br/>
-        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'flex-start' }}>
+        <div className="flex flex-wrap bg-slate-300 rounded-lg">
           {customQuizList.map((quiz, index) => (
             <button key={index} className="bg-violet-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors duration-300 m-5" onClick={(event) => handleQuiz(event)}>{customQuizList[index].replaceAll('_', ' ')}</button>
           ))}
