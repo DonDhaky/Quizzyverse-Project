@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import NavBar from "/src/app/components/Navbar";
 import "./register.css";
 
 const RegisterForm = () => {
@@ -265,6 +266,9 @@ const RegisterForm = () => {
 
   return (
     <>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <NavBar />
+      </div>
       <form
         onSubmit={handleSubmit}
         style={{
