@@ -2,20 +2,26 @@
 
 import React, { useState, useEffect } from "react";
 import NavBar from "../components/Navbar";
-import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt"
+// import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt";
+import { useRouter } from "next/navigation";
 
-export default function Home() { // ON Export directement donc pas besoin de le faire a la fin
+export default function Home() {
+  // ON Export directement donc pas besoin de le faire a la fin
 
   // On enregistre les datas modifies avec useState et on specifie le type, soit un array, text, boolean etc
+  const router = useRouter();
   const [championData, setChampionData] = useState(null); // Enregistre le nom du champion qui doit etre deviné
   const [championNames, setChampionNames] = useState([]); // Enregistre le nom de tous les champions
-  const [suggestions, setSuggestions] = useState([]); // Enregistre la liste de tous les champions filtres pour l'autocomplete 
-  const [guess, setGuess] = useState(null); // Enregiste le 'Guess' du user
+  const [suggestions, setSuggestions] = useState([]); // Enregistre la liste de tous les champions filtres pour l'autocomplete
+  const [guess, setGuess] = useState(''); // Enregiste le 'Guess' du user
   const [hintVisible, setHintVisible] = useState(false); // Controle la visibilite de l'indice
   const [feedback, setFeedback] = useState(""); // Dit si c'est bon ou non avec un ternary
+  const [questionCount, setQuestionCount] = useState(0);
+  const maxQuestions = 5;
 
   // Ici on fetch un random champion, le random est gere dans le fichier route.js dans la route ci-dessous
-  const fetchChampionData = async () => { // on le met on async pour qu'il on meme temps que ca charge
+  const fetchChampionData = async () => {
+    // on le met on async pour qu'il on meme temps que ca charge
     const response = await fetch("api/champion");
     const data = await response.json();
     setChampionData(data); // Mets a jour le championData a devine par exemple ca peut etre LeeSin
@@ -26,9 +32,7 @@ export default function Home() { // ON Export directement donc pas besoin de le 
 
   // Ici on va fetch le data de tous les champions, classique et on enregistre tous leur names dans 'championNames' grace au Object.keys(data.data)
   const fetchAllChampions = async () => {
-    const response = await fetch(
-      "api/tousleschampions"
-    );
+    const response = await fetch("api/tousleschampions");
     const data = await response.json();
     // console.log(data);
     const names = Object.keys(data.data);
@@ -42,36 +46,62 @@ export default function Home() { // ON Export directement donc pas besoin de le 
     fetchAllChampions();
   }, []);
 
-// Ici je check si le guess du user on bon et correspond bien ou meme name dans championData.name
-// c'est pas case sensitive grace a lowercase
-// on met un timeout pour le delay du nouveau pour ne pas refetch d'un coup histoire que ce soit propre
+  useEffect(() => {
+    redirectAfter();
+  }, [questionCount]);
+
+  // Ici je check si le guess du user on bon et correspond bien ou meme name dans championData.name
+  // c'est pas case sensitive grace a lowercase
+  // on met un timeout pour le delay du nouveau pour ne pas refetch d'un coup histoire que ce soit propre
   const handleGuess = () => {
     if (guess.toLowerCase() === championData.name.toLowerCase()) {
       setFeedback("Correct");
-      setTimeout(fetchChampionData, 2000); // On call le fetch pour avoir un nouveau champion
+      setTimeout(() => {
+        if (questionCount < maxQuestions - 1) {
+          fetchChampionData();
+        }
+        setQuestionCount((prevCount) => prevCount + 1);
+        console.log(questionCount);
+      }, 2000); // On call le fetch pour avoir un nouveau champion
     } else {
-      setFeedback("Incorrect");
+      setFeedback(`Incorrect it was ${name}`);
+      setQuestionCount((prevCount) => prevCount + 1);
+      console.log(questionCount);
+        setTimeout(() => {
+        fetchChampionData();
+      }, 2000);
+    }
+  };
+
+  const redirectAfter = () => {
+    if (questionCount >= maxQuestions) {
+      setTimeout(() => {
+        router.push("/");
+      }, 2000);
     }
   };
 
   // Ici on enregistre l'input de user en temps reel, et on ajuste la fonction auto complete
-  const handleInputChange = (touche) => { // touche en parametre on enregistre les touche tapees
+  const handleInputChange = (touche) => {
+    // touche en parametre on enregistre les touche tapees
     const input = touche.target.value; // on enregistre les touches dans input
     setGuess(input); // puis on update le 'guess' grace au setGuess(input) qui reprend la const input devant
     if (input) {
-      const filteredSuggestions = championNames.filter((name) => // ici on va filtre le noms de tous les champions, on prend name en parametre
-        name.toLowerCase().startsWith(input.toLowerCase()) // on le met on lowercase pour matcher le case sensitive au dessus, puis on regard par quoi ca commmece avec startsWith(input.toLowerCase) 
+      const filteredSuggestions = championNames.filter(
+        (
+          name // ici on va filtre le noms de tous les champions, on prend name en parametre
+        ) => name.toLowerCase().startsWith(input.toLowerCase()) // on le met on lowercase pour matcher le case sensitive au dessus, puis on regard par quoi ca commmece avec startsWith(input.toLowerCase)
       );
       setSuggestions(filteredSuggestions); // on enregistre les suggestions dans suggestions grace aux setSuggestions
     } else {
-      setSuggestions([]); // si le filter match rien, les suggestions sont vides par exemple on champion qui commence par les lettres 'df' 
+      setSuggestions([]); // si le filter match rien, les suggestions sont vides par exemple on champion qui commence par les lettres 'df'
     }
   };
 
   // Ici je gere si l'user clikc sur un suggestion proposer, si oui, ca update le guess avec setGuess et vide les suggestions setSuggestions([])
   const handleSuggestionClick = (suggestions) => {
     console.log(suggestions);
-    console.log('test');
+    console.log("test");
     setGuess(suggestions);
     setSuggestions([]);
   };
@@ -85,7 +115,6 @@ export default function Home() { // ON Export directement donc pas besoin de le 
   }
 
   const { name, passive } = championData;
-  
 
   console.log(championData);
 
@@ -111,35 +140,38 @@ export default function Home() { // ON Export directement donc pas besoin de le 
           )}
         </div>
         <div className="relative w-full">
-        <input
-          type="text"
-          value={guess}
-          onChange={handleInputChange}
-          onKeyUp={(e) => {
-            if (e.key === "Enter") {
-              handleGuess();
-            }
-          }}
-          className="mt-2 mb-4 px-4 py-2 rounded-lg border border-gray-300 w-full"
-          placeholder="Enter the champion name"
-        />
-        {suggestions.length > 0 && (
-          <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg max-h-48 overflow-y-auto">
-            {suggestions.map((suggestion) => (
-              <li
-                key={suggestion}
-                onClick={() => handleSuggestionClick(suggestion)}
-                className="px-4 py-2 cursor-pointer hover:bg-gray-200"
-              >
-                {suggestion}
-              </li>
-            ))}
-          </ul>
-        )}
+          <input
+            type="text"
+            value={guess}
+            onChange={handleInputChange}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                handleGuess();
+              }
+            }}
+            className="mt-2 mb-4 px-4 py-2 rounded-lg border border-gray-300 w-full"
+            placeholder="Enter the champion name"
+          />
+          {suggestions.length > 0 && (
+            <ul className="absolute left-0 right-0 bg-white border border-gray-300 rounded-lg max-h-48 overflow-y-auto">
+              {suggestions.map((suggestion) => (
+                <li
+                  key={suggestion}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="px-4 py-2 cursor-pointer hover:bg-gray-200"
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <button
           onClick={handleGuess}
-          className="mt-2 mb-4 px-4 py-2 rounded-lg text-white font-semibold bg-green-600 hover:bg-green-700"
+          className={`mt-2 mb-4 px-4 py-2 rounded-lg text-white font-semibold ${
+            guess ? "bg-green-600 hover:bg-green-700" : "bg-gray-400 cursor-not-allowed"
+          }`}
+          disabled={!guess}
         >
           Champion Guess
         </button>
