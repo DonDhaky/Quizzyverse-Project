@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import "./_skeleton.css"
+import "./skeleton.css"
 import NavBar from "/src/app/components/Navbar"
 import { useSession } from 'next-auth/react';
 import { checkUserDailyCount } from "/src/app/api/users/renewedat/checkRenewedAt"
@@ -272,6 +272,17 @@ const QuizContainer = () => {
     return <div>Loading...</div>;
   }
 
+  const buttonStyle = {
+    border: "solid",
+    borderWidth: "1px",
+    borderRadius: "10px",
+    padding: "5px 15px",
+    color: "grey",
+    backgroundColor: "#FFD700",
+    flex: 1,
+    margin: "10px"
+  };
+
   return (
     <>
     <div style={{ minHeight: "100vh", backgroundColor: "#070707", backgroundImage: `url('${quizSettings.imageUrl}')`, backgroundSize: "cover", backgroundRepeat: "no-repeat", backgroundPosition: "center center" }} >
@@ -279,7 +290,7 @@ const QuizContainer = () => {
       <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <NavBar />
       </div>
-      <br/><br/>
+      <br/>
       <div style={{ width: "45%", minHeight: "50vh", margin: "auto", paddingLeft: "20px", paddingRight: "20px", textAlign: 'center', display: "", border: "solid", borderWidth: "2px", borderRadius: "10px", backgroundColor: "#070707ee"}}>
 
         {/*rend les components en fonction de ce qu'on décide de mettre dans 'const quizSettings'*/}
@@ -306,11 +317,12 @@ const QuizContainer = () => {
             {/*si quiz de type 'text'...*/}
             {quizSettings.type === 'text' && (
               <>
-                {delayPassed ? (<h1 style={{ fontSize: '48px' }}>{quizQandA[quizSettings.question_number-1][0]}</h1>) : null}
-
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '25vh' }}>
+                {delayPassed ? (<h1 style={{ fontSize: '42px' }}>{quizQandA[quizSettings.question_number-1][0].replaceAll("&#039;", "'").replaceAll('&quot;', '"')}</h1>) : null}
+                </div>
                 <br/>
                 <div>
-                  <span style={{fontSize: '28px'}}>&nbsp;<span className={`fade-in ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: color}}>{message}</span>&nbsp;</span>
+                  <span style={{ fontSize: '32px' }}>&nbsp;<span className={`fade-in ${isVisible ? 'visible' : ''}`} style={{fontSize: '28px', color: color}}>{message}</span>&nbsp;</span>
                 </div>
               </>
             )}
@@ -319,9 +331,15 @@ const QuizContainer = () => {
             {quizSettings.response_type === 'text' ? (
               <input style={{width: 300, height: 40, border: "solid", borderWidth: "1px", borderRadius: "10px", marginTop: "20px", marginBottom: "50px", padding: "0 5px"}} placeholder="Try your best!..." value={myAnswer} onChange={(event) => setMyAnswer(event.target.value)} onKeyDown={handleKeyDown} />
             ) : 
-            <div>
-              <div><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "0px", marginBottom: "20px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} value={A} onClick={() => {handleResponse(event)}} >{A}</button><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "20px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={() => {setMyAnswer("Resp_B") ; handleResponse(event)}} >{B}</button></div>
-              <div><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "0px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={() => {setMyAnswer("Resp_C") ; handleResponse(event)}} >{C}</button><button style={{border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "50px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "gray", backgroundColor: "#FFD700"}} onClick={() => {setMyAnswer("Resp_D") ; handleResponse(event)}} >{D}</button></div>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+              <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+                <button style={buttonStyle} value={A} onClick={() => { handleResponse(event); }}><b>{A}</b></button>
+                <button style={buttonStyle} onClick={() => { setMyAnswer("Resp_B"); handleResponse(event); }}><b>{B}</b></button>
+              </div>
+              <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+                <button style={buttonStyle} onClick={() => { setMyAnswer("Resp_C"); handleResponse(event); }}><b>{C}</b></button>
+                <button style={buttonStyle} onClick={() => { setMyAnswer("Resp_D"); handleResponse(event); }}><b>{D}</b></button>
+              </div>
             </div>
             }
 
@@ -330,7 +348,7 @@ const QuizContainer = () => {
               showClue ? (
                   <span>Clue: {clue}</span>
                   ) : (
-                  <button style={{marginRight: "50px", fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {quizSettings.clue_price} xp for a clue !</button>
+                  <button style={{marginRight: "50px", fontStyle: "italic", border: "solid", borderWidth: "1px", borderRadius: "10px", padding: "0 15px"}} onClick={handleClue}>Pay {quizSettings.xpCostPerClue} xp for a clue !</button>
                 )
               )
             : (null)}
@@ -344,7 +362,8 @@ const QuizContainer = () => {
             RESULTS
             <br/><br/>
             <span>Number of good answers: {numOfGoodA}<br/></span>
-            <span>Number of requested clues: {numOfReqC}<br/><br/></span>
+            {quizSettings.clue_activated ? (<span>Number of requested clues: {numOfReqC}</span>) :null}
+            <br/><br/>
             <span>XP earned: {score} / {maxScore}<br/></span>
             <br/><br/>
             <button style={{width: "120px", border: "solid", borderWidth: "1px", borderRadius: "10px", marginLeft: "30px", marginBottom: "50px", padding: "5px 15px", fontStyle: "thick", color: "black", backgroundColor: "DodgerBlue"}} onClick={handleHomeRedirection}><b>Home</b></button>
