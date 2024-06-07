@@ -11,7 +11,7 @@ export default function NavBar() {
   const premium = session?.user?.is_premium;
 
   return (
-    <nav className="bg-blue-600 p-4 rounded-lg flex justify-between items-center w-full max-w-6xl mb-8">
+    <nav className="bg-blue-600 p-4 rounded-lg flex justify-between items-center w-full max-w-6xl">
     <div className="left flex space-x-4">
       <Link className="text-white font-bold" href="/xp">
         {xp} XP
