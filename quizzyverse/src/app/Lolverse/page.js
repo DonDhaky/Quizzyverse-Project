@@ -4,11 +4,14 @@ import React, { useState, useEffect } from "react";
 import NavBar from "../components/Navbar";
 // import { checkUserDailyCount } from "../api/users/renewedat/checkRenewedAt";
 import { useRouter } from "next/navigation";
+import { addXp } from '../api/users/xp/addXp';
+import { useSession } from "next-auth/react";
 
 export default function Home() {
   // ON Export directement donc pas besoin de le faire a la fin
 
   // On enregistre les datas modifies avec useState et on specifie le type, soit un array, text, boolean etc
+  const {data: session} = useSession();
   const router = useRouter();
   const [championData, setChampionData] = useState(null); // Enregistre le nom du champion qui doit etre deviné
   const [championNames, setChampionNames] = useState([]); // Enregistre le nom de tous les champions
@@ -56,6 +59,7 @@ export default function Home() {
   const handleGuess = () => {
     if (guess.toLowerCase() === championData.name.toLowerCase()) {
       setFeedback("Correct");
+      addXp(session.user.email,10);
       setTimeout(() => {
         if (questionCount < maxQuestions - 1) {
           fetchChampionData();
@@ -64,7 +68,7 @@ export default function Home() {
         console.log(questionCount);
       }, 2000); // On call le fetch pour avoir un nouveau champion
     } else {
-      setFeedback(`Incorrect it was ${name}`);
+      setFeedback(`Incorrect it was ${championData.name}`);
       setQuestionCount((prevCount) => prevCount + 1);
       console.log(questionCount);
         setTimeout(() => {
